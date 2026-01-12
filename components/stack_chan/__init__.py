@@ -46,6 +46,7 @@ CONF_FACE_EXPRESSION = "face_expression"
 CONF_EYE_OFFSET_X = "eye_offset_x"
 CONF_EYE_OFFSET_Y = "eye_offset_y"
 CONF_EYE_RADIUS = "eye_radius"
+CONF_EYE_THICKNESS = "eye_thickness"
 CONF_EYE_BLINK_INTERVAL = "eye_blink_interval"
 CONF_EYE_BLINK_DURATION = "eye_blink_duration"
 CONF_MOUTH_OFFSET_Y = "mouse_offset_y"
@@ -79,6 +80,7 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Optional(CONF_EYE_OFFSET_X, default=30): cv.int_,
     cv.Optional(CONF_EYE_OFFSET_Y, default=12): cv.int_,
     cv.Optional(CONF_EYE_RADIUS, default=3.2): cv.float_,
+    cv.Optional(CONF_EYE_THICKNESS, default=2.0): cv.float_,
     cv.Optional(CONF_EYE_BLINK_INTERVAL, default=5): cv.int_,
     cv.Optional(CONF_EYE_BLINK_DURATION, default=120): cv.int_,
     cv.Optional(CONF_MOUTH_OFFSET_Y, default= 15): cv.int_,
@@ -101,6 +103,7 @@ async def to_code(config):
     cg.add(var.set_eye_offset_x(config[CONF_EYE_OFFSET_X]))
     cg.add(var.set_eye_offset_y(config[CONF_EYE_OFFSET_Y]))
     cg.add(var.set_eye_radius(config[CONF_EYE_RADIUS]))
+    cg.add(var.set_eye_thickness(config[CONF_EYE_THICKNESS]))
     cg.add(var.set_eye_blink_interval(config[CONF_EYE_BLINK_INTERVAL]))
     cg.add(var.set_eye_blink_duration(config[CONF_EYE_BLINK_DURATION]))
     cg.add(var.set_mouth_offset_y(config[CONF_MOUTH_OFFSET_Y]))

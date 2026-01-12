@@ -66,6 +66,7 @@ void StackChan::draw(Display &it) {
     int eye_y  = cy - h * eye_offset_y_/100;
     int eye_dx = w * eye_offset_x_/100;
     int eye_r  = w * eye_radius_/100;
+    int eye_t  = std::max(1, (int)(h * eye_thickness_/100));
           
     // ===== Mouse Position =====
     int mouth_y = cy + h * mouth_offset_y_/100;
@@ -75,31 +76,43 @@ void StackChan::draw(Display &it) {
     // Draw Eyes
     switch (face_expression_) {
     case FaceExpression::Sleepy:
-        it.line(cx - eye_dx - 2*eye_r,eye_y, cx - eye_dx + 2*eye_r, eye_y, fore_color_);
-        it.line(cx + eye_dx - 2*eye_r,eye_y, cx + eye_dx + 2*eye_r, eye_y, fore_color_);
+        it.filled_rectangle(cx - eye_dx - 2*eye_r, eye_y, 4*eye_r, eye_t, fore_color_);
+        it.filled_rectangle(cx + eye_dx - 2*eye_r, eye_y, 4*eye_r, eye_t, fore_color_);
         break;
     case FaceExpression::Angry:
-        it.line(cx - eye_dx - 2*eye_r, eye_y - eye_r, cx - eye_dx + 2*eye_r, eye_y + eye_r, fore_color_);
-        it.line(cx + eye_dx - 2*eye_r, eye_y + eye_r, cx + eye_dx + 2*eye_r, eye_y - eye_r, fore_color_);
+        it.filled_circle(cx - eye_dx, eye_y, 2* eye_r, fore_color_);
+        it.filled_circle(cx + eye_dx, eye_y, 2* eye_r, fore_color_);
+        for (int i=0; i <= 3*eye_r; i++) {
+            it.line(cx - eye_dx - 2*eye_r, eye_y - eye_r - i, cx - eye_dx + 2*eye_r, eye_y + eye_r - i, COLOR_OFF);
+            it.line(cx + eye_dx - 2*eye_r, eye_y + eye_r - i, cx + eye_dx + 2*eye_r, eye_y - eye_r - i, COLOR_OFF);
+        }
         break;
     case FaceExpression::Sad:
-        it.line(cx - eye_dx - 2*eye_r, eye_y + eye_r, cx - eye_dx + 2*eye_r, eye_y - eye_r, fore_color_);
-        it.line(cx + eye_dx - 2*eye_r, eye_y - eye_r, cx + eye_dx + 2*eye_r, eye_y + eye_r, fore_color_);
+        it.filled_circle(cx - eye_dx, eye_y, 2* eye_r, fore_color_);
+        it.filled_circle(cx + eye_dx, eye_y, 2* eye_r, fore_color_);
+        for (int i=0; i <= 3*eye_r; i++) {
+            it.line(cx - eye_dx + 2*eye_r, eye_y - eye_r - i, cx - eye_dx - 2*eye_r, eye_y + eye_r - i, COLOR_OFF);
+            it.line(cx + eye_dx - 2*eye_r, eye_y - eye_r - i, cx + eye_dx + 2*eye_r, eye_y + eye_r - i, COLOR_OFF);
+        }
         break;
     case FaceExpression::Happy:
-        it.line(cx - eye_dx - 2*eye_r, eye_y + eye_r, cx - eye_dx,           eye_y,         fore_color_);
-        it.line(cx + eye_dx - 2*eye_r, eye_y + eye_r, cx + eye_dx,           eye_y,         fore_color_);
-        it.line(cx - eye_dx,           eye_y,         cx - eye_dx + 2*eye_r, eye_y + eye_r, fore_color_);     
-        it.line(cx + eye_dx,           eye_y,         cx + eye_dx + 2*eye_r, eye_y + eye_r, fore_color_);
+        it.filled_circle(cx - eye_dx, eye_y, 2* eye_r, fore_color_);
+        it.filled_circle(cx + eye_dx, eye_y, 2* eye_r, fore_color_);
+        it.filled_circle(cx - eye_dx, eye_y, 2* eye_r - 2, COLOR_OFF);
+        it.filled_circle(cx + eye_dx, eye_y, 2* eye_r - 2, COLOR_OFF);
+        it.filled_rectangle(cx - eye_dx - 2*eye_r, eye_y + eye_t, 4*eye_r + eye_t, 2*eye_r, COLOR_OFF);
+        it.filled_rectangle(cx + eye_dx - 2*eye_r, eye_y + eye_t, 4*eye_r + eye_t, 2*eye_r, COLOR_OFF);
         break;
     case FaceExpression::Doubt:
-        it.line(cx - eye_dx - 2*eye_r, eye_y - eye_r, cx - eye_dx + 2*eye_r, eye_y + eye_r, fore_color_);
-        it.line(cx + eye_dx - 2*eye_r, eye_y,         cx + eye_dx + 2*eye_r, eye_y,         fore_color_);
+        it.filled_circle(cx - eye_dx, eye_y, 2* eye_r, fore_color_);
+        it.filled_circle(cx + eye_dx, eye_y, 2* eye_r, fore_color_);
+        it.filled_rectangle(cx - eye_dx - 2*eye_r, eye_y - 2*eye_r, 4*eye_r + 1, 2*eye_r, COLOR_OFF);
+        it.filled_rectangle(cx + eye_dx - 2*eye_r, eye_y - 2*eye_r, 4*eye_r + 1, 2*eye_r, COLOR_OFF);
         break;
     default:
         if (!blinking_) {
-            it.filled_circle(cx - eye_dx, eye_y,eye_r, fore_color_);
-            it.filled_circle(cx + eye_dx, eye_y,eye_r, fore_color_);
+            it.filled_circle(cx - eye_dx, eye_y, eye_r, fore_color_);
+            it.filled_circle(cx + eye_dx, eye_y, eye_r, fore_color_);
         } else {
             int lw = std::max(2, eye_r / 2);
             it.filled_rectangle(cx - eye_dx - eye_r, eye_y - lw / 2, eye_r * 2,lw, fore_color_);

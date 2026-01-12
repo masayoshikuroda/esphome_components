@@ -38,6 +38,7 @@ namespace stack_chan {
             void set_eye_offset_x(int v) { eye_offset_x_ = v; }
             void set_eye_offset_y(int v) { eye_offset_y_ = v; }
             void set_eye_radius(float v) { eye_radius_ = v; }
+            void set_eye_thickness(float v) { eye_thickness_ = v; }
             void set_eye_blink_interval(int v) { eye_blink_interval_ = v; }
             void set_eye_blink_duration(int v) { eye_blink_duration_ = v; }
             void set_mouth_offset_y(int v) { mouth_offset_y_ = v; }
@@ -57,6 +58,7 @@ namespace stack_chan {
             int eye_offset_x_ = 30;
             int eye_offset_y_ = 12;
             float eye_radius_ = 3.2f;
+            float eye_thickness_ = 2.0f;
             int eye_blink_interval_ = 5;
             int eye_blink_duration_ = 120;
             int mouth_offset_y_ = 15;
