@@ -75,3 +75,19 @@ select:
             else if (x == "Doubt")  id(face)->set_face_expression(Expr::Doubt);
             else                    id(face)->set_face_expression(Expr::Neutral);
 ```
+
+あくび
+```yaml:stackchan.yaml
+interval:
+  - interval: 33ms
+    then:
+      - lambda: |-
+          float time = millis() / 1000.0;
+          float cycle_duration = 10.0; // 10-second cycle
+          float PI = 3.141593;
+          float min_value = 0.0;
+          float max_value = 50.0;
+          float base_value = min_value + 0.5 * (max_value - min_value) * (1 + sin(2 * PI * time / cycle_duration));
+          int ratio = (int)base_value;
+          id(face).set_mouth_open_ratio(ratio);
+```
