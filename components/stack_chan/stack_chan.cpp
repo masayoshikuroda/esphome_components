@@ -83,31 +83,31 @@ void StackChan::draw(Display &it) {
         it.filled_circle(cx - eye_dx, eye_y, 2* eye_r, fore_color_);
         it.filled_circle(cx + eye_dx, eye_y, 2* eye_r, fore_color_);
         for (int i=0; i <= 3*eye_r; i++) {
-            it.line(cx - eye_dx - 2*eye_r, eye_y - eye_r - i, cx - eye_dx + 2*eye_r, eye_y + eye_r - i, COLOR_OFF);
-            it.line(cx + eye_dx - 2*eye_r, eye_y + eye_r - i, cx + eye_dx + 2*eye_r, eye_y - eye_r - i, COLOR_OFF);
+            it.line(cx - eye_dx - 2*eye_r, eye_y - eye_r - i, cx - eye_dx + 2*eye_r, eye_y + eye_r - i, back_color_);
+            it.line(cx + eye_dx - 2*eye_r, eye_y + eye_r - i, cx + eye_dx + 2*eye_r, eye_y - eye_r - i, back_color_);
         }
         break;
     case FaceExpression::Sad:
         it.filled_circle(cx - eye_dx, eye_y, 2* eye_r, fore_color_);
         it.filled_circle(cx + eye_dx, eye_y, 2* eye_r, fore_color_);
         for (int i=0; i <= 3*eye_r; i++) {
-            it.line(cx - eye_dx + 2*eye_r, eye_y - eye_r - i, cx - eye_dx - 2*eye_r, eye_y + eye_r - i, COLOR_OFF);
-            it.line(cx + eye_dx - 2*eye_r, eye_y - eye_r - i, cx + eye_dx + 2*eye_r, eye_y + eye_r - i, COLOR_OFF);
+            it.line(cx - eye_dx + 2*eye_r, eye_y - eye_r - i, cx - eye_dx - 2*eye_r, eye_y + eye_r - i, back_color_);
+            it.line(cx + eye_dx - 2*eye_r, eye_y - eye_r - i, cx + eye_dx + 2*eye_r, eye_y + eye_r - i, back_color_);
         }
         break;
     case FaceExpression::Happy:
         it.filled_circle(cx - eye_dx, eye_y, 2* eye_r, fore_color_);
         it.filled_circle(cx + eye_dx, eye_y, 2* eye_r, fore_color_);
-        it.filled_circle(cx - eye_dx, eye_y, 2* eye_r - 2, COLOR_OFF);
-        it.filled_circle(cx + eye_dx, eye_y, 2* eye_r - 2, COLOR_OFF);
-        it.filled_rectangle(cx - eye_dx - 2*eye_r, eye_y + eye_t, 4*eye_r + eye_t, 2*eye_r, COLOR_OFF);
-        it.filled_rectangle(cx + eye_dx - 2*eye_r, eye_y + eye_t, 4*eye_r + eye_t, 2*eye_r, COLOR_OFF);
+        it.filled_circle(cx - eye_dx, eye_y, 2* eye_r - 2, back_color_);
+        it.filled_circle(cx + eye_dx, eye_y, 2* eye_r - 2, back_color_);
+        it.filled_rectangle(cx - eye_dx - 2*eye_r, eye_y + eye_t, 4*eye_r + eye_t, 2*eye_r, back_color_);
+        it.filled_rectangle(cx + eye_dx - 2*eye_r, eye_y + eye_t, 4*eye_r + eye_t, 2*eye_r, back_color_);
         break;
     case FaceExpression::Doubt:
         it.filled_circle(cx - eye_dx, eye_y, 2* eye_r, fore_color_);
         it.filled_circle(cx + eye_dx, eye_y, 2* eye_r, fore_color_);
-        it.filled_rectangle(cx - eye_dx - 2*eye_r, eye_y - 2*eye_r, 4*eye_r + 1, 2*eye_r, COLOR_OFF);
-        it.filled_rectangle(cx + eye_dx - 2*eye_r, eye_y - 2*eye_r, 4*eye_r + 1, 2*eye_r, COLOR_OFF);
+        it.filled_rectangle(cx - eye_dx - 2*eye_r, eye_y - 2*eye_r, 4*eye_r + 1, 2*eye_r, back_color_);
+        it.filled_rectangle(cx + eye_dx - 2*eye_r, eye_y - 2*eye_r, 4*eye_r + 1, 2*eye_r, back_color_);
         break;
     default:
         if (!blinking_) {

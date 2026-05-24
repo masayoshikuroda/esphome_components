@@ -27,6 +27,7 @@ namespace stack_chan {
 
             void draw(display::Display& buff);
 
+            void set_back_color(Color v) { back_color_ = v; }
             void set_fore_color(Color v) { fore_color_ = v; }
             void set_face_offset_x(int v) { face_offset_x_ = v; }
             void set_face_offset_y(int v) { face_offset_y_ = v; }
@@ -47,6 +48,7 @@ namespace stack_chan {
             void set_mouth_open_ratio(int v) { mouth_open_ratio_ = v; }
             
         protected:
+            Color back_color_ = Color::BLACK;
             Color fore_color_ = Color::WHITE;
             int face_offset_x_ = 0;
             int face_offset_y_ = 0;
