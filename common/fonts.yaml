@@ -1,0 +1,68 @@
+font:
+  - file: "gfonts://Roboto"
+    size: 20
+    id: font_20
+  - file: "gfonts://Roboto"
+    size: 40
+    id: font_40 
+
+  - file: "gfonts://Oswald"
+    size: 20
+    id: font_20_sansserif
+  - file: "gfonts://Oswald"
+    size: 40
+    id: font_40_sansserif
+
+  - file: "gfonts://Lora"
+    size: 20
+    id: font_20_serif
+  - file: "gfonts://Lora"
+    size: 40
+    id: font_40_serif
+
+  - file: "gfonts://Parisienne"
+    size: 20
+    id: font_20_script
+  - file: "gfonts://Parisienne"
+    size: 40
+    id: font_40_script
+
+  - file:
+      type: gfonts
+      family: Noto Sans JP
+      weight: 400
+    id: font_20_gothic
+    size: 20
+  - file:
+      type: gfonts
+      family: Noto Sans JP
+      weight: 400
+    id: font_40_gothic
+    size: 40
+
+  - file:
+      type: gfonts
+      family: Noto Serif JP
+      weight: 400
+    id: font_20_mincho
+    size: 20
+  - file:
+      type: gfonts
+      family: Noto Serif JP
+      weight: 400
+    id: font_40_mincho
+    size: 40
+
+  - file:
+      type: gfonts
+      family: Mochiy Pop One
+      weight: 400
+    id: font_20_pop
+    size: 20
+  - file:
+      type: gfonts
+      family: Mochiy Pop One
+      weight: 400
+    id: font_40_pop
+    size: 40
+

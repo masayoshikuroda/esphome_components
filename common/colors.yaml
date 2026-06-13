@@ -1,0 +1,42 @@
+color:
+  - id: color_red
+    hex: FF0000
+  - id: color_orange
+    hex: FFA500
+  - id: color_yellow
+    hex: FFFF00
+  - id: color_green
+    hex: 008000
+  - id: color_blue
+    hex: 0000FF
+  - id: color_purple
+    hex: 800080
+  - id: color_white
+    hex: FFFFFF
+  - id: color_cyan
+    hex: 00FFFF
+  - id: color_magenta
+    hex: FF00FF
+  - id: color_black
+    hex: 100000
+  - id: color_gray
+    hex: 808080
+  - id: color_darkgray
+    hex: A9A9A9
+  - id: color_lightgray
+    hex: D3D3D3  
+  - id: color_navy
+    hex: 000080
+  - id: color_skyblue
+    hex: 87CEEB
+  - id: color_lime
+    hex: 00FF00
+  - id: color_olive
+    hex: 808000
+  - id: color_brown
+    hex: A52A2A
+  - id: color_pink
+    hex: FFC0CB
+  - id: color_violet
+    hex: EE82EE
+

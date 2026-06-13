@@ -3,10 +3,16 @@
 ## StackChan
 
 ESPHome版 StackChan です。
-以下設定例です。
+
+### 設定方法
 
 ```yaml:stackchan.yaml
 (前略)
+
+packages:
+  colors: !include common/colors.yaml
+  fonts: !include common/fonts.yaml
+  stackchan: !include common/stackchan.yaml
 
 web_server:
   port: 8888
@@ -28,55 +34,50 @@ display:
     pages:
       - id: page1
         lambda:  |-
-          id(face)->set_fore_color(Color(255, 255, 0));
           id(face)->draw(it); 
 
 ```
 
-口を開けてしゃべらせる場合
+ブラウザ上で、スタックチャンの表情や口の大きさなどを変更することができます。
+
+以下カスタム例です。
+
+### マイクの音を拾って、口をぱくぱくする場合
+
+マイク設定が予め必要となります。
+
 ```yaml:stackchan.yaml
-number:
-  - platform: template
-    id: mouth_open_ratio
-    name: Mouth Open Ratio
-    optimistic: true
-    initial_value: 0
-    min_value: 0
-    max_value: 100
-    step: 1
-    unit_of_measurement: "%"
-    set_action:
-      - lambda: |-
-          id(face).set_mouth_open_ratio(x);
+sensor:
+  - platform: sound_level
+    passive: true
+    measurement_duration: 66ms
+    rms:
+      name: "Microphone Average Loudness"
+      filters:
+        - offset: 65.0
+      on_value:
+        then:
+          - lambda: |-
+              float QUIET_LEVEL = 32.0f;
+              float LOUD_LEVEL  = 60.0f;
+              float current_db = x;
+
+              int ratio = 0;
+              if (current_db < QUIET_LEVEL) {
+                ratio = 0;
+              } else if(current_db > LOUD_LEVEL) {
+                ratio = 100;
+              } else {
+                ratio = (int)((current_db - QUIET_LEVEL) / (LOUD_LEVEL - QUIET_LEVEL) * 100.0f);
+              }
+              
+              id(mouse_open_ratio) = ratio;
 ```
 
-顔の表情を変える場合
-```yaml:stackchan.yaml
-select:
-  - platform: template
-    id: face_expression
-    name: "Face Expression"
-    optimistic: true
-    options:
-      - Neutral
-      - Angry
-      - Sleepy
-      - Happy
-      - Sad
-      - Doubt
-    on_value:
-      then:
-        - lambda: |-
-            using Expr = esphome::stack_chan::FaceExpression;
-            if      (x == "Angry")  id(face)->set_face_expression(Expr::Angry);
-            else if (x == "Sleepy") id(face)->set_face_expression(Expr::Sleepy);
-            else if (x == "Happy")  id(face)->set_face_expression(Expr::Happy);
-            else if (x == "Sad")    id(face)->set_face_expression(Expr::Sad);
-            else if (x == "Doubt")  id(face)->set_face_expression(Expr::Doubt);
-            else                    id(face)->set_face_expression(Expr::Neutral);
-```
 
-あくび
+
+### あくびをさせる場合
+
 ```yaml:stackchan.yaml
 interval:
   - interval: 33ms

@@ -1,0 +1,340 @@
+external_components:
+  - source:
+      type: git
+      url: https://github.com/masayoshikuroda/esphome_components
+      ref: main
+    components: [ stack_chan ]
+
+stack_chan:
+  - id: face
+    face_offset_x: 0           # % of diaplay width
+    face_offset_y: 0           # % of display height
+    face_shake_duration: 10    # seconds
+    face_respiratory_rate: 12  # times/min
+    face_shake_x: 6            # seconds
+    face_shake_y: 4            # seconds
+    face_expression: neutral   # one of neutral, angry, sleepy, happy, sad, doubt 
+    eye_offset_x: 30           # % of diaplay width
+    eye_offset_y: 12           # % of diaplay height
+    eye_radius: 3.2            # % of display width
+    eye_blink_interval: 5      # seconds
+    eye_blink_duration: 120.   # mili-sencods
+    mouse_offset_y: 15         # % of display height
+    mouse_width: 30            # % of display width
+    mouse_thickness: 2.0       # % of display height
+    mouse_open_ratio: 0        # %
+
+number:
+  - platform: template
+    id: face_offset_x
+    name: Face Offset X
+    optimistic: true
+    initial_value: 0
+    min_value: -50
+    max_value:  50
+    step: 1
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          id(face).set_face_offset_x(x);
+  - platform: template
+    id: face_offset_y
+    name: Face Offset Y
+    optimistic: true
+    initial_value: 0
+    min_value: -50
+    max_value:  50
+    step: 1
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          id(face).set_face_offset_y(x);
+  - platform: template
+    id: face_shake_duration
+    name: Face Shake Duration
+    optimistic: true
+    initial_value: 10
+    min_value: 1
+    max_value: 20
+    step: 1
+    unit_of_measurement: "s"
+    set_action:
+      - lambda: |-
+          id(face).set_face_shake_duration(x);
+  - platform: template
+    id: face_respiratory_rate
+    name: Face Respiratory Rate
+    optimistic: true
+    initial_value: 12
+    min_value: 1
+    max_value: 60
+    step: 1
+    unit_of_measurement: "1/min"
+    set_action:
+      - lambda: |-
+          id(face).set_face_respiratory_rate(x);
+  - platform: template
+    id: face_shake_x
+    name: Face Shake X
+    optimistic: true
+    initial_value: 6
+    min_value: 0
+    max_value: 50
+    step: 1
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          id(face).set_face_shake_x(x);
+  - platform: template
+    id: face_shake_y
+    name: Face Shake Y
+    optimistic: true
+    initial_value: 4
+    min_value: 0
+    max_value: 50
+    step: 1
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          id(face).set_face_shake_y(x);
+  - platform: template
+    id: eye_offset_x
+    name: Eye Offset X
+    optimistic: true
+    initial_value: 30
+    min_value:  0
+    max_value: 50
+    step: 1
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          id(face).set_eye_offset_x(x);
+  - platform: template
+    id: eye_offset_y
+    name: Eye Offset Y
+    optimistic: true
+    initial_value: 12
+    min_value:  0
+    max_value: 50
+    step: 1
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          id(face).set_eye_offset_y(x);
+  - platform: template
+    id: eye_radius
+    name: Eye Radius
+    optimistic: true
+    initial_value: 3.2
+    min_value:  1
+    max_value: 20
+    step: 0.1
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          id(face).set_eye_radius(x);
+  - platform: template
+    id: eye_thickness
+    name: Eye Thickness
+    optimistic: true
+    initial_value: 2.0
+    min_value:  0
+    max_value: 10
+    step: 0.1
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          id(face).set_eye_thickness(x);
+  - platform: template
+    id: eye_blink_interval
+    name: Eye Blink Interval
+    optimistic: true
+    initial_value: 5
+    min_value:  1
+    max_value: 20
+    step: 1
+    unit_of_measurement: "s"
+    set_action:
+      - lambda: |-
+          id(face).set_eye_blink_interval(x);
+  - platform: template
+    id: eye_blink_duration
+    name: Eye Blink Duration
+    optimistic: true
+    initial_value: 120
+    min_value:  10
+    max_value: 1000
+    step: 10
+    unit_of_measurement: "ms"
+    set_action:
+      - lambda: |-
+          id(face).set_eye_blink_duration(x);
+  - platform: template
+    id: mouth_offset_y
+    name: Mouth Offset Y
+    optimistic: true
+    initial_value: 15
+    min_value:  0
+    max_value: 50
+    step: 1
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          id(face).set_mouth_offset_y(x);
+  - platform: template
+    id: mouth_width
+    name: Mouth Width
+    optimistic: true
+    initial_value: 35
+    min_value:  0
+    max_value: 100
+    step: 1
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          id(face).set_mouth_width(x);
+  - platform: template
+    id: mouth_thickness
+    name: Mouth Thickness
+    optimistic: true
+    initial_value: 2.0
+    min_value:  0
+    max_value: 10
+    step: 0.1
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          id(face).set_mouth_thickness(x);
+
+globals:
+  - id: face_backcolor
+    type: Color
+    initial_value: 'id(color_black)'
+  - id: face_forecolor
+    type: Color
+    initial_value: 'id(color_white)'
+  - id: face_expression
+    type: esphome::stack_chan::FaceExpression
+    initial_value: esphome::stack_chan::Neutral
+  - id: mouse_open_ratio
+    type: int
+    initial_value: '0'
+
+select:
+  - platform: template
+    id: select_forecolor
+    name: "Face Color Fore"
+    optimistic: true
+    options:
+      - red
+      - orange
+      - yellow
+      - green
+      - blue
+      - purple
+      - white
+      - cyan
+      - magenta
+      - gray
+      - lightgray
+      - darkgray
+      - black
+    initial_option: "white"
+    on_value:
+      then:
+        - lambda: |-
+            if      (x == "red")        id(face_forecolor) = id(color_red);
+            else if (x == "orange")     id(face_forecolor) = id(color_orange);
+            else if (x == "yellow")     id(face_forecolor) = id(color_yellow);
+            else if (x == "green")      id(face_forecolor) = id(color_green);
+            else if (x == "blue")       id(face_forecolor) = id(color_blue);
+            else if (x == "purple")     id(face_forecolor) = id(color_purple);
+            else if (x == "white")      id(face_forecolor) = id(color_white);
+            else if (x == "cyan")       id(face_forecolor) = id(color_cyan);
+            else if (x == "magenta")    id(face_forecolor) = id(color_magenta);
+            else if (x == "gray")       id(face_forecolor) = id(color_gray);
+            else if (x == "lightgray")  id(face_forecolor) = id(color_lightgray);
+            else if (x == "darkgray")   id(face_forecolor) = id(color_darkgray);
+            else                        id(face_forecolor) = id(color_black);
+  - platform: template
+    id: select_backcolor
+    name: "Face Color Back"
+    optimistic: true
+    options:
+      - red
+      - orange
+      - yellow
+      - green
+      - blue
+      - purple
+      - white
+      - cyan
+      - magenta
+      - gray
+      - lightgray
+      - darkgray
+      - black
+    initial_option: "black"
+    on_value:
+      then:
+        - lambda: |-
+            if      (x == "red")        id(face_backcolor) = id(color_red);
+            else if (x == "orange")     id(face_backcolor) = id(color_orange);
+            else if (x == "yellow")     id(face_backcolor) = id(color_yellow);
+            else if (x == "green")      id(face_backcolor) = id(color_green);
+            else if (x == "blue")       id(face_backcolor) = id(color_blue);
+            else if (x == "purple")     id(face_backcolor) = id(color_purple);
+            else if (x == "white")      id(face_backcolor) = id(color_white);
+            else if (x == "cyan")       id(face_backcolor) = id(color_cyan);
+            else if (x == "magenta")    id(face_backcolor) = id(color_magenta);
+            else if (x == "gray")       id(face_backcolor) = id(color_gray);
+            else if (x == "lightgray")  id(face_backcolor) = id(color_lightgray);
+            else if (x == "darkgray")   id(face_backcolor) = id(color_darkgray);
+            else                        id(face_backcolor) = id(color_black);
+  - platform: template
+    id: select_mouse_open_ratio
+    name: "Mouse Open Ratio"
+    optimistic: true
+    options:
+      - "0"
+      - "10"
+      - "20"
+      - "30"
+      - "40"
+      - "50"
+      - "75"
+      - "100"
+    on_value:
+      then:
+        - lambda: |-
+            if      (x == "0")    id(mouse_open_ratio) = 0;
+            else if (x == "10")   id(mouse_open_ratio) = 10;
+            else if (x == "20")   id(mouse_open_ratio) = 20;
+            else if (x == "30")   id(mouse_open_ratio) = 30;
+            else if (x == "40")   id(mouse_open_ratio) = 40;
+            else if (x == "50")   id(mouse_open_ratio) = 50;
+            else if (x == "75")   id(mouse_open_ratio) = 75;
+            else                  id(mouse_open_ratio) = 100;
+  - platform: template
+    id: select_face_expression
+    name: "Face Expression"
+    optimistic: true
+    options:
+      - Neutral
+      - Angry
+      - Sleepy
+      - Happy
+      - Sad
+      - Doubt
+    on_value:
+      then:
+        - lambda: |-
+            using Expr = esphome::stack_chan::FaceExpression;
+            if      (x == "Angry")  id(face_expression) = Expr::Angry;
+            else if (x == "Sleepy") id(face_expression) = Expr::Sleepy;
+            else if (x == "Happy")  id(face_expression) = Expr::Happy;
+            else if (x == "Sad")    id(face_expression) = Expr::Sad;
+            else if (x == "Doubt")  id(face_expression) = Expr::Doubt;
+            else                    id(face_expression) = Expr::Neutral;
+
+
