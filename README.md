@@ -34,6 +34,37 @@ display:
     pages:
       - id: page1
         lambda:  |-
+(前略)
+
+packages:
+  colors: !include common/colors.yaml
+  fonts: !include common/fonts.yaml
+  stackchan: !include common/stackchan.yaml
+
+web_server:
+  port: 8888
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/masayoshikuroda/esphome_components
+      ref: main
+    components: [ stack_chan ]
+
+stack_chan:
+  - id: face
+
+display:
+  - platform: mipi_spi
+    (略)
+    update_interval: 33ms
+    pages:
+      - id: page1
+        lambda:  |-
+          it.fill(id(face_backcolor));
+          id(face)->set_fore_color(id(face_forecolor));
+          id(face)->set_face_expression(id(face_expression));
+          id(face).set_mouth_open_ratio(id(mouse_open_ratio));
           id(face)->draw(it); 
 
 ```
