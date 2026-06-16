@@ -1,5 +1,44 @@
 # ESPHome Custom Components
 
+## VU Meter
+
+Microphoneの音圧レベルを取得する Sound Level Sensorコンポーネントのように、Speakerから出力される音圧レベルを計算するコンポーネントです。
+Resamplerコンポーネントと同じように Speakerコンポネントとして振る舞い、入力の音圧レベルを計算後、物理スピーカーにそのまま出力します。
+計算した音圧レベルは、Sensor経由で取得できます。
+
+### 設定方法
+
+```yaml:vumeter.yaml
+(前略)
+
+web_server:
+  port: 8888
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/masayoshikuroda/esphome_components
+      ref: main
+    components: [ vu_meter ]
+
+sensor:
+  - platform: vu_meter
+    id: speaker_vu_meter
+    source: i2s_speaker
+    name: "Speaker VU Meter"
+    update_interval_ms: 100
+
+media_player:
+  - platform: speaker
+    volume_min: 0.5
+    volume_max: 0.8
+    announcement_pipeline:
+      speaker: speaker_vu_meter
+      format: FLAC
+      sample_rate: 48000
+      num_channels: 1
+```
+
 ## StackChan
 
 ESPHome版 StackChan です。
@@ -78,7 +117,33 @@ sensor:
               id(mouse_open_ratio) = ratio;
 ```
 
+### スピーカの音にあわせて、口をぱくぱくする場合
 
+```yaml:stackchan.yaml
+sensor:
+  - platform: vu_meter
+    id: speaker_vu_meter
+    source: i2s_speaker
+    name: "Speaker VU Meter"
+    update_interval_ms: 100
+    on_value:
+      then:
+        - lambda: |-
+            float QUIET_LEVEL = 32.0f;
+            float LOUD_LEVEL  = 60.0f;
+            float current_db = x;
+
+            int ratio = 0;
+            if (current_db < QUIET_LEVEL) {
+              ratio = 0;
+            } else if(current_db > LOUD_LEVEL) {
+              ratio = 100;
+            } else {
+              ratio = (int)((current_db - QUIET_LEVEL) / (LOUD_LEVEL - QUIET_LEVEL) * 100.0f);
+            }
+              
+            id(mouse_open_ratio) = ratio;
+```
 
 ### あくびをさせる場合
 
