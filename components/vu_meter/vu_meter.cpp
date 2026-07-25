@@ -32,9 +32,18 @@ void VuMeter::loop() {
   }
 }
 
-size_t VuMeter::play(const uint8_t *data, size_t length) {
+#ifdef USE_ESP32
+size_t VuMeter::play(const uint8_t *data, size_t length, TickType_t ticks_to_wait) {
+  // 初回の初期化（オーディオストリーム情報がまだこのオブジェクトに設定されていない場合）
+  if (!this->initialized_) {
+    this->initialized_ = true;
+    if (this->source_ != nullptr) {
+      this->source_->set_audio_stream_info(this->get_audio_stream_info());
+    }
+  }
+  
   // 1. まず最優先で本物のスピーカーにデータを流し、実際に処理された「本物のバイト数」を取得
-  size_t written = this->source_->play(data, length);
+  size_t written = this->source_->play(data, length, ticks_to_wait);
 
   // 2. 厳密に「実際に書き込まれた範囲内（written）」だけで計算を行う
   if (written >= 2) {
@@ -49,6 +58,33 @@ size_t VuMeter::play(const uint8_t *data, size_t length) {
 
   // 3. 本物のスピーカーが「処理できたバイト数」をそのまま上流に正直に報告する
   return written;
+}
+#endif
+
+size_t VuMeter::play(const uint8_t *data, size_t length) {
+#ifdef USE_ESP32
+  return this->play(data, length, 0);
+#else
+  // 初回の初期化（オーディオストリーム情報がまだこのオブジェクトに設定されていない場合）
+  if (!this->initialized_) {
+    this->initialized_ = true;
+    if (this->source_ != nullptr) {
+      this->source_->set_audio_stream_info(this->get_audio_stream_info());
+    }
+  }
+  
+  // Fallback for non-ESP32 builds
+  size_t written = this->source_->play(data, length);
+  if (written >= 2) {
+    for (size_t i = 0; i < written - 1; i += 128) {
+      int16_t sample = (int16_t)(data[i] | (data[i + 1] << 8));
+      float normalized = (float)sample / 32768.0f;
+      this->sum_squares_ += normalized * normalized;
+      this->sample_count_++;
+    }
+  }
+  return written;
+#endif
 }
 
 }  // namespace vu_meter
