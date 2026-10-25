@@ -1,0 +1,114 @@
+external_components:
+  - source:
+      type: git
+      url: https://github.com/m5stack/esphome-yaml
+      ref: main
+    components: [ es8311 ]
+    refresh: 1d
+    
+i2c:
+  - id: ext_bus # used on atomic echo base
+    sda: GPIO38
+    scl: GPIO39
+    
+# Ehco Base GPIO Expander
+pi4ioe5v6408:
+  - id: pi4ioe5v6408_hub
+    i2c_id: ext_bus
+    address: 0x43
+
+# I2S Bus Configuration
+i2s_audio:
+  - id: i2s_audio_bus
+    i2s_lrclk_pin: GPIO6
+    i2s_bclk_pin: GPIO8
+    # i2s_mclk_pin is not used
+
+audio_dac:
+  - platform: es8311
+    id: es8311_dac
+    i2c_id: ext_bus
+    bits_per_sample: 16bit
+    sample_rate: 48000
+    use_microphone: false  # analog microphone here
+    use_mclk: false        # no mclk pin is connected
+
+microphone:
+  - platform: i2s_audio
+    id: i2s_mic
+    sample_rate: 16000
+    i2s_din_pin: GPIO7
+    bits_per_sample: 16bit
+    adc_type: external
+    channel: left
+
+speaker:
+  - platform: i2s_audio
+    id: i2s_speaker
+    i2s_dout_pin: GPIO5
+    dac_type: external
+    sample_rate: 48000
+    audio_dac: es8311_dac
+    channel: left
+
+media_player:
+  - platform: speaker
+    name: "Echo Base Player"
+    id: echo_base_player
+    volume_min: 0.5
+    volume_max: 0.8
+    announcement_pipeline:
+      speaker: i2s_speaker
+      format: FLAC
+      sample_rate: 48000
+      num_channels: 1
+
+switch:
+  # NS4150B
+  - platform: gpio
+    name: Speaker Enable
+    pin:
+      pi4ioe5v6408: pi4ioe5v6408_hub
+      number: 0
+      mode:
+        output: true
+    icon: "mdi:volume-high"
+    restore_mode: RESTORE_DEFAULT_ON
+  - platform: template
+    name: Mute Microphone
+    id: mute
+    icon: "mdi:microphone-off"
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    entity_category: config
+  - platform: template
+    name: "Microphone Capture"
+    id: switch_capture
+    icon: mdi:account-voice
+    optimistic: true
+    turn_on_action:
+      - logger.log: "microphone.capture: mic_internal"
+      - microphone.capture: i2s_mic
+      - logger.log: "microphone.capture: mic_internal"
+      - microphone.capture: i2s_mic
+    turn_off_action:
+      - logger.log: "microphone.stop_capture: mic_internal"
+      - microphone.stop_capture: i2s_mic
+
+sensor:
+  - platform: sound_level
+    id: sensor_sound_level
+    passive: true
+    measurement_duration: 66ms
+    rms:
+      id: sensor_sound_level_rms
+      name: "Microphone Loudness Average"
+      filters:
+        - offset: 65.0
+    peak:
+      id: sensor_sound_level_peak
+      name: "Microphone Loudness Peak"
+      filters:
+        - offset: 65.0
+
+
