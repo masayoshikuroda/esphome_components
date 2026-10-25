@@ -65,4 +65,36 @@ font:
       weight: 400
     id: font_40_pop
     size: 40
+  - file:
+      type: gfonts
+      family: Barlow Condensed
+      weight: 400
+    id: font_20_barlow_condensed
+    size: 20
 
+  - file:
+      type: gfonts
+      family: Noto Emoji
+      weight: 400
+    id: font_40_emoji
+    size: 40
+    glyphs:
+      - "♥"
+      - "❗️"
+      - "❓"
+      - "🎉"
+      - "💧"
+      - "💦"
+      - "💢"
+      - "🎵"
+      - "👂"
+      - "💤"
+      - "💬"
+      - "🌎"
+      - "🌐"
+      - "⭐"
+      - "📝"
+      - "🔊"
+      - "📢"
+      - "❌"
+      - "⭕"
