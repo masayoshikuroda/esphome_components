@@ -39,6 +39,31 @@ media_player:
       num_channels: 1
 ```
 
+## M5PM1
+
+M5StickS3の電源管理 ICであるM5PM1用コンポーネントです。
+
+### 設定方法
+
+```yaml:stackchan.yaml
+esphome:
+  name: "m5stack-stick-s3"
+  friendly_name: "M5Stack Stick S3"
+  on_boot:
+    - priority: 500 # This runs after the normal ES8311 setup.
+      then:
+        - lambda: |-
+            id(m5pm1_id).set_speaker_amplifier(true);           
+    - priority: 300
+      then:
+        - audio_dac.set_volume:
+            volume: 80%
+m5pm1:
+  id: m5pm1_id
+  i2c_id: i2c_internal
+  address: 0x6E
+```
+
 ## StackChan
 
 ESPHome版 StackChan です。
@@ -160,4 +185,22 @@ interval:
           float base_value = min_value + 0.5 * (max_value - min_value) * (1 + sin(2 * PI * time / cycle_duration));
           int ratio = (int)base_value;
           id(face).set_mouth_open_ratio(ratio);
+```
+### 漫符の表示
+
+絵文字を使って、画面右上に表示するもが簡単。
+displayのlambda式中で、face描画後に記述する。
+
+```yaml:stackchan.yaml
+・・・
+packages:
+  fonts: !include esphome_components/common/fonts.yaml
+・・・
+display:
+    pages:
+      - id: stackchan
+        lambda: |-
+          ・・・
+        　id(face)->draw(it);
+          it.print(it.get_width(), 0, id(font_40_emoji), id(face_forecolor), TextAlign::TOP_RIGHT, "❤️");
 ```
