@@ -1,0 +1,127 @@
+globals:
+  - id: face_decoration
+    type: std::string
+    restore_value: no
+    initial_value: ""
+  - id: face_message
+    type: std::string
+    restore_value: no
+    initial_value: ""
+
+font:
+  - file:
+      type: gfonts
+      family: Noto Emoji
+      weight: 400
+    id: font_20_emoji
+    size: 20
+    glyphs:
+      - "⭕"
+      - "❌"
+      - "❗️"
+      - "❓"
+      - "⛔"
+      - "💢"
+      - "🤍"
+      - "💧"
+      - "💦"
+      - "🎵"
+      - "💤"
+      - "👂"
+      - "✋"
+      - "🦶"
+      - "👀"
+      - "👃"
+      - "👄"
+      - "💬"
+      - "🔆"
+      - "🌎"
+      - "🌐"
+      - "⭐"
+      - "🔑"
+      - "🔒"
+      - "⏰"
+      - "🔍"
+      - "📄"
+      - "📝"
+      - "🎤"
+      - "📢"
+  - file:
+      type: gfonts
+      family: Noto Emoji
+      weight: 400
+    id: font_40_emoji
+    size: 40
+    glyphs:
+      - "⭕"
+      - "❌"
+      - "❗️"
+      - "❓"
+      - "⛔"
+      - "💢"
+      - "🤍"
+      - "💧"
+      - "💦"
+      - "🎵"
+      - "💤"
+      - "👂"
+      - "✋"
+      - "🦶"
+      - "👀"
+      - "👃"
+      - "👄"
+      - "💬"
+      - "🔆"
+      - "🌎"
+      - "🌐"
+      - "⭐"
+      - "🔑"
+      - "🔒"
+      - "⏰"
+      - "🔍"
+      - "📄"
+      - "📝"
+      - "🎤"
+      - "📢"
+      
+select:
+  - platform: template
+    name: "Face Decoration"
+    id: select_face_decoration
+    options:
+      - ""
+      - "⭕"
+      - "❌"
+      - "❗️"
+      - "❓"
+      - "⛔"
+      - "💢"
+      - "🤍"
+      - "💧"
+      - "💦"
+      - "🎵"
+      - "💤"
+      - "👂"
+      - "✋"
+      - "🦶"
+      - "👀"
+      - "👃"
+      - "👄"
+      - "💬"
+      - "🔆"
+      - "🌎"
+      - "🌐"
+      - "⭐"
+      - "🔑"
+      - "🔒"
+      - "⏰"
+      - "🔍"
+      - "📄"
+      - "📝"
+      - "🎤"
+      - "📢"
+    lambda: |-
+      return id(face_decoration);
+    set_action:
+      - lambda: |-
+          id(face_decoration) = x;

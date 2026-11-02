@@ -1,0 +1,11 @@
+text:
+  - platform: template
+    id: text_face_message
+    name: "Face Message"
+    mode: text
+    lambda: |-
+      return {id(face_message)};
+    set_action:
+      then:
+        - lambda: |-
+            id(face_message) = x;

@@ -194,7 +194,8 @@ displayのlambda式中で、face描画後に記述する。
 ```yaml:stackchan.yaml
 ・・・
 packages:
-  fonts: !include esphome_components/common/fonts.yaml
+  ・・・
+  stackchan-decoration: !include esphome_components/common/stackchan-decoration.yaml
 ・・・
 display:
     pages:
