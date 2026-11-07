@@ -189,6 +189,7 @@ interval:
 ### 漫符の表示
 
 絵文字を使って、画面右上に表示するもが簡単。
+絵文字が含まれるフォントをあらかじめロードさせておくことが必要。
 displayのlambda式中で、face描画後に記述する。
 
 ```yaml:stackchan.yaml
@@ -204,4 +205,23 @@ display:
           ・・・
         　id(face)->draw(it);
           it.print(it.get_width(), 0, id(font_40_emoji), id(face_forecolor), TextAlign::TOP_RIGHT, "❤️");
+```
+### 吹き出しの表示
+
+画面下部に直接文字列を描画する。
+displayのlambda式中で、face描画後に記述する。
+
+```yaml:stackchan.yaml
+・・・
+packages:
+  ・・・
+  fonts: !include esphome_components/common/fonts.yaml
+・・・
+display:
+    pages:
+      - id: stackchan
+        lambda: |-
+          ・・・
+        　id(face)->draw(it);
+          it.printf(it.get_width()/2, it.get_height(), id(font_20_gothic), id(face_forecolor), TextAlign::BOTTOM_CENTER, "Hello World!");
 ```
