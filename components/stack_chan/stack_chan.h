@@ -28,24 +28,43 @@ namespace stack_chan {
             void draw(display::Display& buff);
 
             void set_back_color(Color v) { back_color_ = v; }
+            Color get_back_color() const { return back_color_; }
             void set_fore_color(Color v) { fore_color_ = v; }
+            Color get_fore_color() const { return fore_color_; }
             void set_face_offset_x(int v) { face_offset_x_ = v; }
+            int get_face_offset_x() const { return face_offset_x_; }
             void set_face_offset_y(int v) { face_offset_y_ = v; }
+            int get_face_offset_y() const { return face_offset_y_; }
             void set_face_shake_duration(int v) { face_shake_duration_ = v; }
+            int get_face_shake_duration() const { return face_shake_duration_; }
             void set_face_respiratory_rate(int v) { face_respiratory_rate_ = v; }
+            int get_face_respiratory_rate() const { return face_respiratory_rate_; }
             void set_face_shake_x(int v) { face_shake_x_ = v; }
+            int get_face_shake_x() const { return face_shake_x_; }
             void set_face_shake_y(int v) { face_shake_y_ = v; }
+            int get_face_shake_y() const { return face_shake_y_; }
             void set_face_expression(FaceExpression v) { face_expression_ = v; }
+            FaceExpression get_face_expression() const { return face_expression_; }
             void set_eye_offset_x(int v) { eye_offset_x_ = v; }
+            int get_eye_offset_x() const { return eye_offset_x_; }
             void set_eye_offset_y(int v) { eye_offset_y_ = v; }
+            int get_eye_offset_y() const { return eye_offset_y_; }
             void set_eye_radius(float v) { eye_radius_ = v; }
+            float get_eye_radius() const { return eye_radius_; }
             void set_eye_thickness(float v) { eye_thickness_ = v; }
+            float get_eye_thickness() const { return eye_thickness_; }
             void set_eye_blink_interval(int v) { eye_blink_interval_ = v; }
+            int get_eye_blink_interval() const { return eye_blink_interval_; }
             void set_eye_blink_duration(int v) { eye_blink_duration_ = v; }
+            int get_eye_blink_duration() const { return eye_blink_duration_; }
             void set_mouth_offset_y(int v) { mouth_offset_y_ = v; }
+            int get_mouth_offset_y() const { return mouth_offset_y_; }
             void set_mouth_width(int v) { mouth_width_ = v; }
+            int get_mouth_width() const { return mouth_width_; }
             void set_mouth_thickness(float v) { mouth_thickness_ = v; }
+            float get_mouth_thickness() const { return mouth_thickness_; }
             void set_mouth_open_ratio(int v) { mouth_open_ratio_ = v; }
+            int get_mouth_open_ratio() const { return mouth_open_ratio_; }
             
         protected:
             Color back_color_ = Color::BLACK;

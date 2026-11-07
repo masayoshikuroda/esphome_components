@@ -1,4 +1,8 @@
 external_components:
+#  - source:
+#      type: local
+#      path: esphome_components/components
+#    components: [ stack_chan ]
   - source:
       type: git
       url: https://github.com/masayoshikuroda/esphome_components
@@ -29,12 +33,12 @@ number:
     id: face_offset_x
     name: Face Offset X
     entity_category: config
-    optimistic: true
-    initial_value: 0
     min_value: -50
     max_value:  50
     step: 1
     unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_face_offset_x();
     set_action:
       - lambda: |-
           id(face).set_face_offset_x(x);
@@ -42,12 +46,12 @@ number:
     id: face_offset_y
     name: Face Offset Y
     entity_category: config
-    optimistic: true
-    initial_value: 0
     min_value: -50
     max_value:  50
     step: 1
     unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_face_offset_y(); 
     set_action:
       - lambda: |-
           id(face).set_face_offset_y(x);
@@ -55,12 +59,12 @@ number:
     id: face_shake_duration
     name: Face Shake Duration
     entity_category: config
-    optimistic: true
-    initial_value: 10
     min_value: 1
     max_value: 20
     step: 1
     unit_of_measurement: "s"
+    lambda: |-
+      return id(face).get_face_shake_duration(); 
     set_action:
       - lambda: |-
           id(face).set_face_shake_duration(x);
@@ -68,12 +72,12 @@ number:
     id: face_respiratory_rate
     name: Face Respiratory Rate
     entity_category: config
-    optimistic: true
-    initial_value: 12
     min_value: 1
     max_value: 60
     step: 1
     unit_of_measurement: "1/min"
+    lambda: |-
+      return id(face).get_face_respiratory_rate(); 
     set_action:
       - lambda: |-
           id(face).set_face_respiratory_rate(x);
@@ -81,12 +85,12 @@ number:
     id: face_shake_x
     name: Face Shake X
     entity_category: config
-    optimistic: true
-    initial_value: 6
     min_value: 0
     max_value: 50
     step: 1
     unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_face_shake_x(); 
     set_action:
       - lambda: |-
           id(face).set_face_shake_x(x);
@@ -94,12 +98,12 @@ number:
     id: face_shake_y
     name: Face Shake Y
     entity_category: config
-    optimistic: true
-    initial_value: 4
     min_value: 0
     max_value: 50
     step: 1
     unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_face_shake_y(); 
     set_action:
       - lambda: |-
           id(face).set_face_shake_y(x);
@@ -107,12 +111,12 @@ number:
     id: eye_offset_x
     name: Eye Offset X
     entity_category: config
-    optimistic: true
-    initial_value: 30
     min_value:  0
     max_value: 50
     step: 1
     unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_eye_offset_x(); 
     set_action:
       - lambda: |-
           id(face).set_eye_offset_x(x);
@@ -120,12 +124,12 @@ number:
     id: eye_offset_y
     name: Eye Offset Y
     entity_category: config
-    optimistic: true
-    initial_value: 12
     min_value:  0
     max_value: 50
     step: 1
     unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_eye_offset_y(); 
     set_action:
       - lambda: |-
           id(face).set_eye_offset_y(x);
@@ -133,12 +137,12 @@ number:
     id: eye_radius
     name: Eye Radius
     entity_category: config
-    optimistic: true
-    initial_value: 3.2
     min_value:  1
     max_value: 20
     step: 0.1
     unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_eye_radius(); 
     set_action:
       - lambda: |-
           id(face).set_eye_radius(x);
@@ -146,12 +150,12 @@ number:
     id: eye_thickness
     name: Eye Thickness
     entity_category: config
-    optimistic: true
-    initial_value: 2.0
     min_value:  0
     max_value: 10
     step: 0.1
     unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_eye_thickness(); 
     set_action:
       - lambda: |-
           id(face).set_eye_thickness(x);
@@ -159,12 +163,12 @@ number:
     id: eye_blink_interval
     name: Eye Blink Interval
     entity_category: config
-    optimistic: true
-    initial_value: 5
     min_value:  1
     max_value: 20
     step: 1
     unit_of_measurement: "s"
+    lambda: |-
+      return id(face).get_eye_blink_interval(); 
     set_action:
       - lambda: |-
           id(face).set_eye_blink_interval(x);
@@ -172,12 +176,12 @@ number:
     id: eye_blink_duration
     name: Eye Blink Duration
     entity_category: config
-    optimistic: true
-    initial_value: 120
     min_value:  10
     max_value: 1000
     step: 10
     unit_of_measurement: "ms"
+    lambda: |-
+      return id(face).get_eye_blink_duration(); 
     set_action:
       - lambda: |-
           id(face).set_eye_blink_duration(x);
@@ -185,12 +189,12 @@ number:
     id: mouth_offset_y
     name: Mouth Offset Y
     entity_category: config
-    optimistic: true
-    initial_value: 15
     min_value:  0
     max_value: 50
     step: 1
     unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_mouth_offset_y(); 
     set_action:
       - lambda: |-
           id(face).set_mouth_offset_y(x);
@@ -198,12 +202,12 @@ number:
     id: mouth_width
     name: Mouth Width
     entity_category: config
-    optimistic: true
-    initial_value: 35
     min_value:  0
     max_value: 100
     step: 1
     unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_mouth_width(); 
     set_action:
       - lambda: |-
           id(face).set_mouth_width(x);
@@ -211,12 +215,12 @@ number:
     id: mouth_thickness
     name: Mouth Thickness
     entity_category: config
-    optimistic: true
-    initial_value: 2.0
     min_value:  0
     max_value: 10
     step: 0.1
     unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_mouth_thickness(); 
     set_action:
       - lambda: |-
           id(face).set_mouth_thickness(x);
