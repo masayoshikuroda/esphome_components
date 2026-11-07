@@ -1,0 +1,84 @@
+switch:
+  - platform: template
+    id: switch_microphone_mute
+    name: Microphone Mute
+    icon: "mdi:microphone-off"
+    optimistic: true
+    lambda: |-
+      return id(i2s_mic).get_mute_state();
+    turn_on_action:
+      - microphone.mute: 
+      - logger.log: "Microphone muted."
+    turn_off_action:
+      - microphone.unmute: 
+      - logger.log: "Microphone unmuted."
+  - platform: template
+    id: switch_microphone_capture
+    name: Microphone Capture
+    icon: "mdi:microphone-off"
+    optimistic: true
+    lambda: |-
+      return id(i2s_mic).is_running();
+    turn_on_action:
+      - microphone.capture: 
+      - logger.log: "Microphone capture started."
+    turn_off_action:
+      - microphone.stop_capture: 
+      - logger.log: "Microphone capture stopped."
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/masayoshikuroda/esphome_components
+      ref: main
+    components: [ vu_meter ]
+
+sensor:
+  - platform: sound_level
+    id: sensor_sound_level
+    passive: true
+    measurement_duration: 66ms
+    rms:
+      id: sensor_sound_level_rms
+      name: "Microphone Loudness Average"
+      filters:
+        - offset: 65.0
+    peak:
+      id: sensor_sound_level_peak
+      name: "Microphone Loudness Peak"
+      filters:
+        - offset: 65.0
+  - platform: vu_meter
+    id: speaker_vu_meter
+    source: i2s_speaker
+    name: "Speaker VU Meter"
+    update_interval_ms: 100
+    on_value:
+      then:
+        - lambda: |-
+            float QUIET_LEVEL = 32.0f;
+            float LOUD_LEVEL  = 60.0f;
+            float current_db = x;
+
+            int ratio = 0;
+            if (current_db < QUIET_LEVEL) {
+              ratio = 0;
+            } else if(current_db > LOUD_LEVEL) {
+              ratio = 100;
+            } else {
+              ratio = (int)((current_db - QUIET_LEVEL) / (LOUD_LEVEL - QUIET_LEVEL) * 100.0f);
+            }
+              
+            id(mouse_open_ratio) = ratio;
+
+media_player:
+  - platform: speaker
+    name: " StackChan"
+    id: media_player_stackchan
+    volume_min: 0.5
+    volume_max: 0.8
+    announcement_pipeline:
+      speaker: speaker_vu_meter
+      format: FLAC
+      sample_rate: 48000
+      num_channels: 1
