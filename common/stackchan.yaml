@@ -28,6 +28,7 @@ number:
   - platform: template
     id: face_offset_x
     name: Face Offset X
+    entity_category: config
     optimistic: true
     initial_value: 0
     min_value: -50
@@ -40,6 +41,7 @@ number:
   - platform: template
     id: face_offset_y
     name: Face Offset Y
+    entity_category: config
     optimistic: true
     initial_value: 0
     min_value: -50
@@ -52,6 +54,7 @@ number:
   - platform: template
     id: face_shake_duration
     name: Face Shake Duration
+    entity_category: config
     optimistic: true
     initial_value: 10
     min_value: 1
@@ -64,6 +67,7 @@ number:
   - platform: template
     id: face_respiratory_rate
     name: Face Respiratory Rate
+    entity_category: config
     optimistic: true
     initial_value: 12
     min_value: 1
@@ -76,6 +80,7 @@ number:
   - platform: template
     id: face_shake_x
     name: Face Shake X
+    entity_category: config
     optimistic: true
     initial_value: 6
     min_value: 0
@@ -88,6 +93,7 @@ number:
   - platform: template
     id: face_shake_y
     name: Face Shake Y
+    entity_category: config
     optimistic: true
     initial_value: 4
     min_value: 0
@@ -100,6 +106,7 @@ number:
   - platform: template
     id: eye_offset_x
     name: Eye Offset X
+    entity_category: config
     optimistic: true
     initial_value: 30
     min_value:  0
@@ -112,6 +119,7 @@ number:
   - platform: template
     id: eye_offset_y
     name: Eye Offset Y
+    entity_category: config
     optimistic: true
     initial_value: 12
     min_value:  0
@@ -124,6 +132,7 @@ number:
   - platform: template
     id: eye_radius
     name: Eye Radius
+    entity_category: config
     optimistic: true
     initial_value: 3.2
     min_value:  1
@@ -136,6 +145,7 @@ number:
   - platform: template
     id: eye_thickness
     name: Eye Thickness
+    entity_category: config
     optimistic: true
     initial_value: 2.0
     min_value:  0
@@ -148,6 +158,7 @@ number:
   - platform: template
     id: eye_blink_interval
     name: Eye Blink Interval
+    entity_category: config
     optimistic: true
     initial_value: 5
     min_value:  1
@@ -160,6 +171,7 @@ number:
   - platform: template
     id: eye_blink_duration
     name: Eye Blink Duration
+    entity_category: config
     optimistic: true
     initial_value: 120
     min_value:  10
@@ -172,6 +184,7 @@ number:
   - platform: template
     id: mouth_offset_y
     name: Mouth Offset Y
+    entity_category: config
     optimistic: true
     initial_value: 15
     min_value:  0
@@ -184,6 +197,7 @@ number:
   - platform: template
     id: mouth_width
     name: Mouth Width
+    entity_category: config
     optimistic: true
     initial_value: 35
     min_value:  0
@@ -196,6 +210,7 @@ number:
   - platform: template
     id: mouth_thickness
     name: Mouth Thickness
+    entity_category: config
     optimistic: true
     initial_value: 2.0
     min_value:  0
@@ -224,6 +239,7 @@ select:
   - platform: template
     id: select_forecolor
     name: "Face Color Fore"
+    entity_category: config
     optimistic: true
     options:
       - red
@@ -259,6 +275,7 @@ select:
   - platform: template
     id: select_backcolor
     name: "Face Color Back"
+    entity_category: config
     optimistic: true
     options:
       - red
@@ -294,6 +311,7 @@ select:
   - platform: template
     id: select_mouse_open_ratio
     name: "Mouse Open Ratio"
+    entity_category: config
     optimistic: true
     options:
       - "0"
@@ -318,6 +336,7 @@ select:
   - platform: template
     id: select_face_expression
     name: "Face Expression"
+    entity_category: config
     optimistic: true
     options:
       - Neutral

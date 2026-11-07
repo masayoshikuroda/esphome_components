@@ -90,6 +90,7 @@ select:
   - platform: template
     name: "Face Decoration"
     id: select_face_decoration
+    entity_category: config
     options:
       - ""
       - "⭕"

@@ -2,6 +2,7 @@ text:
   - platform: template
     id: text_face_message
     name: "Face Message"
+    entity_category: config
     mode: text
     lambda: |-
       return {id(face_message)};
