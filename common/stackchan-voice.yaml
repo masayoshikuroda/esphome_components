@@ -1,0 +1,138 @@
+globals:
+  - id: va_last_heard
+    type: std::string
+    restore_value: no
+    initial_value: '" "'
+  - id: va_last_error
+    type: std::string
+    restore_value: no
+    initial_value: '" "'
+
+micro_wake_word:
+  id: mww
+  microphone: i2s_mic
+  stop_after_detection: true
+  task_stack_in_psram: true
+  models:
+    - model: okay_nabu
+      id: okay_nabu
+    - id: !remove hey_jarvis 
+    - id: !remove hey_mycroft
+  on_wake_word_detected:
+    then:
+      - logger.log:
+          level: info
+          format: "wake_word detected: %s"
+          args: [ 'wake_word.c_str()' ]
+      - script.execute: on_wake_word_detected
+      - switch.turn_on: switch_voice_assistant
+
+voice_assistant:
+  id: va
+  microphone:
+    microphone: i2s_mic
+    gain_factor: 4
+  speaker: speaker_vu_meter
+  noise_suppression_level: 2
+  auto_gain: 31dBFS
+  on_client_connected:
+    - logger.log: VA on_client_connected...
+    - script.execute: on_client_connected
+    - switch.turn_on: switch_wake_word
+  on_client_disconnected:
+    - logger.log: VA on_client_disconnected...
+    - script.execute: on_client_disconnected
+    - switch.turn_off: switch_wake_word
+  on_start:
+    - logger.log: VA on_start...
+    - script.execute: on_voice_assistant_start
+  on_listening:
+    - logger.log: VA on_listening...
+    - script.execute: on_voice_assistant_listening
+  on_stt_vad_start:
+    - logger.log: VA on_stt_vad_start...
+  on_stt_vad_end:
+    - logger.log: VA on_stt_vad_end...
+  on_stt_end:
+    - logger.log: VA on_stt_end...
+    - lambda: 'id(va_last_heard) = x;'
+    - script.execute: on_voice_assistant_transcripted
+  on_intent_start:
+    - logger.log: VA on_intent_start...
+    - script.execute: on_voice_assistant_intent_start
+  on_intent_progress:
+    - logger.log: VA on_intent_progress...
+  on_intent_end:
+    - logger.log: VA on_intent_end...
+  on_tts_start:
+    - logger.log: VA on_tts_start...
+  on_tts_end:
+    - logger.log: VA on_tts_end...
+  on_tts_stream_start:
+    - logger.log: VA on_tts_stream_start...
+    - script.execute: on_voice_assistant_speaking
+  on_tts_stream_end:
+    - logger.log: VA on_tts_stream_end...
+  on_error:
+    - logger.log: VA on_error...
+    - lambda: 'id(va_last_error) = code;'
+    - script.execute: on_voice_assistant_error
+    - switch.turn_on: switch_wake_word
+  on_end:
+    - logger.log: VA on_end...
+    - script.execute: on_voice_assistant_end
+  on_idle:
+   - logger.log: VA on_idle...
+
+binary_sensor:
+  - platform: template
+    id: binary_sensor_voice_assistant_is_connection
+    name: Voice Assistant API Connection
+    lambda: |-
+      return id(va).get_api_connection() != nullptr;
+      
+switch:
+  - platform: template
+    id: switch_wake_word
+    name: Wake Word
+    optimistic: true
+    lambda: |-
+      return id(mww).is_running();
+    turn_on_action:
+      - if:
+          condition:
+            - voice_assistant.is_running
+          then:
+            - voice_assistant.stop
+            - logger.log: "Voice Assistant stopped."
+      - micro_wake_word.start
+      - logger.log: "Micro Wake Word started."
+      - script.execute: on_wake_word_start
+    turn_off_action:
+      - micro_wake_word.stop:
+      - logger.log: "Micro Wake Word stopped."
+      - script.execute: on_wake_word_stop
+  - platform: template
+    id: switch_voice_assistant
+    name: Voice Assistant
+    optimistic: true
+    lambda: |-
+      return id(va).is_running();
+    turn_on_action:
+      - if:
+          condition:
+            - micro_wake_word.is_running:
+          then:
+            - micro_wake_word.stop:
+            - logger.log: "Micro Wake Word stopped."
+            - script.execute: on_wake_word_stop
+      - voice_assistant.start:
+    turn_off_action:
+      - if:
+          condition:
+            - micro_wake_word.is_running:
+          then:
+            - micro_wake_word.stop:
+            - logger.log: "Micro Wake Word stopped."
+            - script.execute: on_wake_word_stop
+      - voice_assistant.stop: 
