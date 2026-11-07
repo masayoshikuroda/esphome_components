@@ -225,3 +225,113 @@ display:
         　id(face)->draw(it);
           it.printf(it.get_width()/2, it.get_height(), id(font_20_gothic), id(face_forecolor), TextAlign::BOTTOM_CENTER, "Hello World!");
 ```
+
+## StackChan Voice Assistant
+
+Voice Assisttantコンポーネントを設定し、Home Assistant上のassist機能を利用することで
+StackChanをAIアシスタントとして動作させます。
+
+定義済みのpackageを利用することでyaml設定を最小限にして構成することができます。
+
+```yaml:stackchan.yaml
+・・・
+packages:
+  ・・・
+  colors:               github://masayoshikuroda/esphome_components/common/colors.yaml@main
+  fonts:                github://masayoshikuroda/esphome_components/common/fonts.yaml@main
+  stackchan:            github://masayoshikuroda/esphome_components/common/stackchan.yaml@main
+  stackchan-decoration: github://masayoshikuroda/esphome_components/common/stackchan-decoration.yaml@main
+  stackchan-baloon:     github://masayoshikuroda/esphome_components/common/stackchan-baloon.yaml@main
+  stackchan-audio:      github://masayoshikuroda/esphome_components/common/stackchan-audio.yaml@main
+  stackchan-voice:      github://masayoshikuroda/esphome_components/common/stackchan-voice.yaml@main
+・・・
+microphone:
+  - platform: i2s_audio
+    id: i2s_mic
+・・・
+speaker:
+  - platform: i2s_audio
+    id: i2s_speaker
+・・・    
+display:
+　　・・・    
+    pages:
+      - id: stackchan
+        lambda: |-
+          it.fill(id(face_backcolor));
+          id(face)->set_back_color(id(face_backcolor));
+          id(face)->set_fore_color(id(face_forecolor));
+          id(face)->set_face_expression(id(face_expression));
+          id(face).set_mouth_open_ratio(id(mouse_open_ratio));
+          id(face)->draw(it);
+          it.print(it.get_width(),    0,               id(font_40_emoji),  id(face_forecolor), TextAlign::TOP_RIGHT,     id(face_decoration).c_str());
+          it.printf(it.get_width()/2, it.get_height(), id(font_20_gothic), id(face_forecolor), TextAlign::BOTTOM_CENTER, id(face_message).c_str());
+
+script:
+  - id: on_client_connected
+    then:
+     - lambda: |-
+        id(face_decoration) = "";
+        id(face_message) = "CONNECTED"; 
+  - id: on_client_disconnected
+    then:
+     - lambda: |-
+        id(face_decoration) = "";
+        id(face_message) = "DISCONNECTED";   
+  - id: on_wake_word_start
+    then:
+      - lambda: |-
+          id(face_decoration) = "";
+          id(face_message) = "DETECTING";
+  - id: on_wake_word_stop
+    then:
+      - lambda: |-
+          id(face_decoration) = "";
+          id(face_message) = "";
+  - id: on_wake_word_detected
+    then:
+      - lambda: |-
+          id(face_decoration) = "❗️";
+          id(face_message) = "DETECTED";
+  - id: on_voice_assistant_start
+    then:
+     - lambda: |-
+        id(face_decoration) = "";
+        id(face_message) = "STARTED";
+  - id: on_voice_assistant_listening
+    then:
+    - lambda: |-
+        id(face_decoration) = "👂";
+        id(face_message) = "LISTENING";
+  - id: on_voice_assistant_transcripted
+    then:
+    - lambda: |-
+        id(face_decoration) = "📝";
+        id(face_message) = "TRANSCRIPTED";
+  - id: on_voice_assistant_intent_start
+    then:
+    - lambda: |-
+        id(face_decoration) = "🌐";
+        id(face_message) = "THINKING";
+  - id: on_voice_assistant_speaking
+    then:
+    - lambda: |-
+        id(face_decoration) = "📢";
+        id(face_message) = "SPEAKING";
+  - id: on_voice_assistant_error
+    then:
+    - lambda: |-
+        id(face_decoration) = "❌";
+        id(face_message) = "ERROR";
+  - id: on_voice_assistant_end
+    then:
+
+web_server:
+  port: 8888
+```
+
+- microphone, speakerコンポーネント定義が必要です
+- デバイス起動時に micro_wake_word が開始されます
+- ウェイクワードは "Okay Nabu"
+- voice_assistant の status が更新されると、対応する script が呼び出されます
+- web_server 上で設定、動作を変更できます
