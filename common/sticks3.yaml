@@ -1,0 +1,88 @@
+esp32:
+  board: m5stack-atoms3
+  flash_size: 8MB
+  cpu_frequency: 240MHz
+  framework:
+    type: esp-idf
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/masayoshikuroda/esphome_components
+      ref: main
+    components: [ m5pm1 ]
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+spi:
+  clk_pin: 40
+  mosi_pin: 39
+
+i2c:
+  - id: i2c_internal
+    sda: 47
+    scl: 48
+    scan: True
+    frequency: 100kHz
+
+m5pm1:
+  id: m5pm1_id
+  i2c_id: i2c_internal
+  address: 0x6E
+
+output:
+  - platform: ledc
+    id: output_backlight
+    pin: GPIO38
+    frequency: 1000Hz     # or try 5000Hz if still dim
+
+light:
+  - platform: monochromatic
+    id: light_backlight
+    output: output_backlight
+    restore_mode: ALWAYS_ON
+    default_transition_length: 0s
+
+audio_dac:
+  - platform: es8311
+    id: es8311_dac
+    i2c_id: i2c_internal
+    bits_per_sample: 16bit
+    sample_rate: 16000
+    use_microphone: false
+    use_mclk: true 
+
+i2s_audio:
+  - id: i2s_audio_bus
+    i2s_lrclk_pin: 15
+    i2s_bclk_pin: 17
+    i2s_mclk_pin: 18
+
+microphone:
+  - platform: i2s_audio
+    id: i2s_mic
+    i2s_audio_id: i2s_audio_bus
+    i2s_din_pin: 16
+    adc_type: external
+    pdm: false
+    i2s_mode: primary
+    sample_rate: 16000
+    bits_per_sample: 16bit
+    channel: left
+    mclk_multiple: 256
+
+speaker:
+  - platform: i2s_audio
+    id: i2s_speaker
+    i2s_audio_id: i2s_audio_bus
+    i2s_dout_pin: GPIO14
+    dac_type: external
+    audio_dac: es8311_dac
+    i2s_mode: primary
+    sample_rate: 16000
+    bits_per_sample: 16bit
+    channel: left
+    buffer_duration: 1s
+    timeout: 3s
