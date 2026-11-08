@@ -56,8 +56,8 @@ sensor:
     on_value:
       then:
         - lambda: |-
-            float QUIET_LEVEL = 32.0f;
-            float LOUD_LEVEL  = 120.0f;
+            float QUIET_LEVEL =   0.0f;
+            float LOUD_LEVEL  = 180.0f;
             float current_db = x;
 
             int ratio = 0;
