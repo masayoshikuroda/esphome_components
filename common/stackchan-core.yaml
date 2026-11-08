@@ -61,15 +61,6 @@ time:
         # ... and update the RTC when the synchronization was successful
         bm8563.write_time:
 
-sensor:
-  - platform: ltr_als_ps
-    address: 0x23
-    i2c_id: bsp_bus
-    type: ALS_PS
-    ambient_light:
-      name: "Ambient Light"
-    ps_counts: "Proximity Counts"
-
 axp2101:
   id: axp2101_pmu
   i2c_id: bsp_bus
@@ -118,6 +109,63 @@ output:
     channel: DCDC5
     voltage: 3300
 
+sensor:
+  - platform: axp2101
+    id: axp2101_sensor
+    battery_level:
+      name: "Battery Level"
+    battery_voltage:
+      name: "Battery Voltage"
+    axp_temperature:
+      name: "AXP2101 Temperature"
+    battery_charging:
+      name: "Battery Charging"
+  - platform: ltr_als_ps
+    address: 0x23
+    i2c_id: bsp_bus
+    type: ALS_PS
+    ambient_light:
+      name: "Ambient Light"
+    ps_counts: "Proximity Counts"
+
+binary_sensor:
+  - platform: gpio
+    name: "ES_INT P0_3"
+    pin:
+      aw9523b_id: aw9523b_hub
+      number: 3
+    on_press:
+      then:
+        - logger.log: "ES7210 interrupt triggered"
+    internal: true
+  - platform: gpio
+    name: "TF_SW P0_4"
+    pin:
+      aw9523b_id: aw9523b_hub
+      number: 4 
+    on_press:
+      then:
+        - logger.log: "TF_SW interrupt triggered"
+    internal: true
+  - platform: gpio
+    name: "TOUCH_INT P1_2"
+    pin:
+      aw9523b_id: aw9523b_hub
+      number: 10
+    on_press:
+      then:
+        - logger.log: "TOUCH interrupt triggered"
+    internal: true
+  - platform: gpio
+    name: "AW_INT P1_3"
+    pin:
+      aw9523b_id: aw9523b_hub
+      number: 11
+    on_press:
+      then:
+        - logger.log: "AW88298 interrupt triggered"
+    internal: true
+
 switch:
   - platform: gpio
     name: "BUS_OUT_EN"
@@ -142,6 +190,7 @@ switch:
     restore_mode: RESTORE_DEFAULT_ON
   - platform: gpio
     id: aw_rst
+    name: "AW RST P0_2"
     pin:
       aw9523b_id: aw9523b_hub
       number: 2
@@ -149,6 +198,7 @@ switch:
     restore_mode: RESTORE_DEFAULT_ON 
   - platform: gpio
     id: cam_rst
+    name: "CAM RST P1_0"
     pin:
       aw9523b_id: aw9523b_hub
       number: 8

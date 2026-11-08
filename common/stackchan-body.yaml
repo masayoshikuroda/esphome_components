@@ -9,6 +9,12 @@ m5ioe1:
   i2c_id: bsp_bus
   reset: true
 
+output:
+  - platform: m5ioe1
+    id: test_output
+    channel: PWM_1
+    pwm_polarity: ACTIVE_HIGH
+
 switch:
   - platform: gpio
     name: "M5IOE1 Pin 1"
@@ -30,12 +36,6 @@ switch:
         open_drain: false
     restore_mode: RESTORE_DEFAULT_ON
     internal: true  
-
-output:
-  - platform: m5ioe1
-    id: test_output
-    channel: PWM_1
-    pwm_polarity: ACTIVE_HIGH
 
 light:
   - platform: monochromatic
@@ -153,16 +153,7 @@ ftservo:
     address: 2
     id: y_servo
 
-
 sensor:
-  - platform: axp2101
-    id: axp2101_sensor
-    battery_level:
-      name: "Battery Level"
-      filters:
-        - delta: 1.0
-    battery_charging:
-      name: "Battery Charging"
   - platform: ftservo
     id: x_servo_sensor
     ftservo_id: x_servo
