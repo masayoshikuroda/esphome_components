@@ -127,7 +127,7 @@ sensor:
         then:
           - lambda: |-
               float QUIET_LEVEL = 32.0f;
-              float LOUD_LEVEL  = 60.0f;
+              float LOUD_LEVEL  = 120.0f;
               float current_db = x;
 
               int ratio = 0;
@@ -196,7 +196,7 @@ displayのlambda式中で、face描画後に記述する。
 ・・・
 packages:
   ・・・
-  fonts-emoji:          github://masayoshikuroda/esphome_components/common/fonts-emoji.yaml@main
+  fonts-emoji: github://masayoshikuroda/esphome_components/common/fonts-emoji.yaml@main
   stackchan-decoration: github://masayoshikuroda/esphome_components/common/stackchan-decoration.yaml@main
 ・・・
 display:
@@ -216,7 +216,8 @@ displayのlambda式中で、face描画後に記述する。
 ・・・
 packages:
   ・・・
-  fonts: !include esphome_components/common/fonts.yaml
+  fonts: github://masayoshikuroda/esphome_components/common/fonts.yaml@main
+  fonts-ja: github://masayoshikuroda/esphome_components/common/fonts-ja.yaml@main
 ・・・
 display:
     pages:
@@ -240,6 +241,8 @@ packages:
   ・・・
   colors:               github://masayoshikuroda/esphome_components/common/colors.yaml@main
   fonts:                github://masayoshikuroda/esphome_components/common/fonts.yaml@main
+  fonts-ja:             github://masayoshikuroda/esphome_components/common/fonts-ja.yaml@main
+  fonts-emoji:          github://masayoshikuroda/esphome_components/common/fonts-emoji.yaml@main
   stackchan:            github://masayoshikuroda/esphome_components/common/stackchan.yaml@main
   stackchan-decoration: github://masayoshikuroda/esphome_components/common/stackchan-decoration.yaml@main
   stackchan-baloon:     github://masayoshikuroda/esphome_components/common/stackchan-baloon.yaml@main
@@ -265,7 +268,7 @@ display:
           id(face)->set_face_expression(id(face_expression));
           id(face).set_mouth_open_ratio(id(mouse_open_ratio));
           id(face)->draw(it);
-          it.print(it.get_width(),    0,               id(font_40_emoji),  id(face_forecolor), TextAlign::TOP_RIGHT,     id(face_decoration).c_str());
+          it.print(it.get_width(), 0, id(font_40_emoji), id(face_forecolor), TextAlign::TOP_RIGHT, id(face_decoration).c_str());
           it.printf(it.get_width()/2, it.get_height(), id(font_20_gothic), id(face_forecolor), TextAlign::BOTTOM_CENTER, id(face_message).c_str());
 
 script:
