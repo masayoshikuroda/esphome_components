@@ -116,14 +116,29 @@ text_sensor:
     name: "Touch Sensor 1"
     channel: CH_1
     update_interval: 1s
+    on_value:
+      then:
+        script.execute:
+          id: on_head_back_touched
+          state: !lambda 'return x;'
   - platform: si12t
     name: "Touch Sensor 2"
     channel: CH_2
     update_interval: 1s
+    on_value:
+      then:
+        script.execute:
+          id: on_head_center_touched
+          state: !lambda 'return x;'
   - platform: si12t
     name: "Touch Sensor 3"
     channel: CH_3
     update_interval: 1s
+    on_value:
+      then:
+        script.execute:
+          id: on_head_front_touched
+          state: !lambda 'return x;'
   - id: text_request
     platform: template
     on_value:
@@ -242,7 +257,6 @@ number:
       min_value: 100
       max_value: 1500
       step: 100
-
 
 button:
   - platform: template
