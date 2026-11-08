@@ -1,14 +1,11 @@
 external_components:
-#  - source:
-#      type: local
-#      path: esphome_components/components
-#    components: [ stack_chan ]
   - source:
       type: git
       url: https://github.com/masayoshikuroda/esphome_components
       ref: main
     components: [ stack_chan ]
-
+    refresh: 1min
+ 
 stack_chan:
   - id: face
     face_offset_x: 0           # % of diaplay width
