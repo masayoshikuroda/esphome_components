@@ -1,8 +1,12 @@
 globals:
-  - id: va_last_heard
+  - id: va_last_stt
     type: std::string
     restore_value: no
     initial_value: '" "'
+  - id: va_last_tts
+    type: std::string
+    restore_value: no
+    initial_value: '" "'    
   - id: va_last_error
     type: std::string
     restore_value: no
@@ -55,7 +59,7 @@ voice_assistant:
     - logger.log: VA on_stt_vad_end...
   on_stt_end:
     - logger.log: VA on_stt_end...
-    - lambda: 'id(va_last_heard) = x;'
+    - lambda: 'id(va_last_stt) = x;'
     - script.execute: on_voice_assistant_transcripted
   on_intent_start:
     - logger.log: VA on_intent_start...
@@ -66,6 +70,7 @@ voice_assistant:
     - logger.log: VA on_intent_end...
   on_tts_start:
     - logger.log: VA on_tts_start...
+    - lambda: 'id(va_last_tts) = x;'
   on_tts_end:
     - logger.log: VA on_tts_end...
   on_tts_stream_start:
@@ -73,6 +78,8 @@ voice_assistant:
     - script.execute: on_voice_assistant_speaking
   on_tts_stream_end:
     - logger.log: VA on_tts_stream_end...
+    - lambda: |-
+        id(mouse_open_ratio) = 0;
   on_error:
     - logger.log: VA on_error...
     - lambda: 'id(va_last_error) = code;'
@@ -126,7 +133,7 @@ switch:
             - micro_wake_word.stop:
             - logger.log: "Micro Wake Word stopped."
             - script.execute: on_wake_word_stop
-      - voice_assistant.start:
+      - voice_assistant.start_continuous:
     turn_off_action:
       - if:
           condition:
