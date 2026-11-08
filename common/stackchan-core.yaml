@@ -1,11 +1,22 @@
-psram:
-  mode: quad
-  speed: 80MHz
+esp32:
+  variant: esp32s3
+  flash_size: 16MB
+  framework:
+    type: esp-idf
+    sdkconfig_options:
+      # These SPIRAM configs are needed when using camera
+      CONFIG_SPIRAM_SUPPORT: y
+      CONFIG_SPIRAM_USE_CAPS_ALLOC: y
+      CONFIG_SPIRAM_USE_MALLOC: y
 
 external_components:
   - source: github://m5stack/esphome-yaml/components
     components: [axp2101, aw88298, aw9523b]
     refresh: 1d
+
+psram:
+  mode: quad
+  speed: 80MHz
 
 spi:
   - id: spi_bus
