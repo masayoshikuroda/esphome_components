@@ -196,7 +196,8 @@ displayのlambda式中で、face描画後に記述する。
 ・・・
 packages:
   ・・・
-  stackchan-decoration: !include esphome_components/common/stackchan-decoration.yaml
+  fonts-emoji:          github://masayoshikuroda/esphome_components/common/fonts-emoji.yaml@main
+  stackchan-decoration: github://masayoshikuroda/esphome_components/common/stackchan-decoration.yaml@main
 ・・・
 display:
     pages:
