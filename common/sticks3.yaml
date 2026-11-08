@@ -16,6 +16,10 @@ psram:
   mode: octal
   speed: 80MHz
 
+remote_transmitter:
+  pin: 46
+  carrier_duty_percent: 50%
+
 spi:
   clk_pin: 40
   mosi_pin: 39
