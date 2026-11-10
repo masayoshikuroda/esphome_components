@@ -80,6 +80,7 @@ voice_assistant:
     - logger.log: VA on_tts_stream_end...
     - lambda: |-
         id(mouse_open_ratio) = 0;
+    - script.execute: on_voice_assistant_spoken
   on_error:
     - logger.log: VA on_error...
     - lambda: 'id(va_last_error) = code;'
