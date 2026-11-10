@@ -52,24 +52,7 @@ sensor:
     id: speaker_vu_meter
     source: i2s_speaker
     name: "Speaker VU Meter"
-    update_interval_ms: 100
-    on_value:
-      then:
-        - lambda: |-
-            float QUIET_LEVEL =   0.0f;
-            float LOUD_LEVEL  = 180.0f;
-            float current_db = x;
-
-            int ratio = 0;
-            if (current_db < QUIET_LEVEL) {
-              ratio = 0;
-            } else if(current_db > LOUD_LEVEL) {
-              ratio = 100;
-            } else {
-              ratio = (int)((current_db - QUIET_LEVEL) / (LOUD_LEVEL - QUIET_LEVEL) * 100.0f);
-            }
-              
-            id(mouse_open_ratio) = ratio;
+    update_interval_ms: 33
 
 media_player:
   - platform: speaker
@@ -82,3 +65,5 @@ media_player:
       format: FLAC
       sample_rate: 48000
       num_channels: 1
+
+    
