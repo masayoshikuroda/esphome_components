@@ -1,0 +1,54 @@
+
+audio_dac:
+  - platform: es8311
+    id: es8311_dac
+    i2c_id: i2c_internal
+    bits_per_sample: 16bit
+    sample_rate: 16000
+    use_microphone: false
+    use_mclk: true 
+
+i2s_audio:
+  - id: i2s_audio_bus
+    i2s_lrclk_pin: 15
+    i2s_bclk_pin: 17
+    i2s_mclk_pin: 18
+
+microphone:
+  - platform: i2s_audio
+    id: i2s_mic
+    i2s_audio_id: i2s_audio_bus
+    i2s_din_pin: 16
+    adc_type: external
+    pdm: false
+    i2s_mode: primary
+    sample_rate: 16000
+    bits_per_sample: 16bit
+    channel: left
+    mclk_multiple: 256
+
+speaker:
+  - platform: i2s_audio
+    id: i2s_speaker
+    i2s_audio_id: i2s_audio_bus
+    i2s_dout_pin: GPIO14
+    dac_type: external
+    audio_dac: es8311_dac
+    i2s_mode: primary
+    sample_rate: 16000
+    bits_per_sample: 16bit
+    channel: left
+    buffer_duration: 1s
+    timeout: 3s
+
+media_player:
+  - platform: speaker
+    name: " Internal Media Player"
+    id: media_player_internal
+    volume_min: 0.5
+    volume_max: 0.8
+    announcement_pipeline:
+      speaker: i2s_speaker
+      format: FLAC
+      sample_rate: 48000
+      num_channels: 1
