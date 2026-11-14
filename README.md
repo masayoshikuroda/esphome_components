@@ -228,6 +228,25 @@ display:
           it.printf(it.get_width()/2, it.get_height(), id(font_20_gothic), id(face_forecolor), TextAlign::BOTTOM_CENTER, "Hello World!");
 ```
 
+### ステータスの表示
+
+MDIフォントを使って、画面左上に表示するもが簡単。
+
+```yaml:stackchan.yaml
+・・・
+packages:
+  ・・・
+  fonts-mdi: github://masayoshikuroda/esphome_components/common/fonts-mdi.yaml@main
+・・・
+display:
+    pages:
+      - id: stackchan
+        lambda: |-
+          ・・・
+        　id(face)->draw(it);
+          it.printf(0,0, id(font_20_mdi), id(face_forecolor), "\U000F0064");
+```
+
 ## StackChan Voice Assistant
 
 Voice Assisttantコンポーネントを設定し、Home Assistant上のassist機能を利用することで
