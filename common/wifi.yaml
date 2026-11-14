@@ -1,4 +1,5 @@
 wifi:
+  id: wifi_0
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   ap:
