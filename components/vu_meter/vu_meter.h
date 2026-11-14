@@ -36,9 +36,9 @@ class VuMeter : public Component, public speaker::Speaker, public sensor::Sensor
     }
   }
   void stop() override { 
-    // バッファが完全に出力されるまで待つ（最後の音声が途切れるのを防ぐ）
+    // Wait until the buffer is fully output (to prevent the final audio from cutting out)
     if (this->source_ != nullptr) {
-      uint32_t timeout = 5000;  // 5秒のタイムアウト
+      uint32_t timeout = 5000;  // msec
       uint32_t start = millis();
       while (this->source_->has_buffered_data() && (millis() - start) < timeout) {
         delay(10);
@@ -53,7 +53,6 @@ class VuMeter : public Component, public speaker::Speaker, public sensor::Sensor
  protected:
   speaker::Speaker *source_{nullptr};
   
-  // 計算用に一時退避する軽量バッファ
   std::vector<int16_t> sample_buffer_;
   
   float sum_squares_ = 0;
@@ -62,7 +61,6 @@ class VuMeter : public Component, public speaker::Speaker, public sensor::Sensor
   uint32_t update_interval_ = 100;
   float spl_offset_ = 65.0f;
   
-  // 初回play()呼び出しの初期化フラグ
   bool initialized_ = false;
 };
 
