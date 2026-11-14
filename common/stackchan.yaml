@@ -15,14 +15,14 @@ stack_chan:
     face_shake_x: 6            # seconds
     face_shake_y: 4            # seconds
     face_expression: neutral   # one of neutral, angry, sleepy, happy, sad, doubt 
-    eye_offset_x: 30           # % of diaplay width
-    eye_offset_y: 12           # % of diaplay height
-    eye_radius: 3.2            # % of display width
+    eye_offset_x: 22           # % of diaplay width
+    eye_offset_y: 10           # % of diaplay height
+    eye_radius: 2.5            # % of display width
     eye_blink_interval: 5      # seconds
     eye_blink_duration: 120.   # mili-sencods
-    mouse_offset_y: 15         # % of display height
+    mouse_offset_y: 10         # % of display height
     mouse_width: 30            # % of display width
-    mouse_thickness: 2.0       # % of display height
+    mouse_thickness: 2.5       # % of display height
     mouse_open_ratio: 0        # %
 
 number:
