@@ -153,5 +153,12 @@ void M5PM1Component::shutdown(bool hold) {
   this->_write_reg(REG_SYS_CMD, (0xA << 4) | 0x01);
 }
 
+bool M5PM1Component::is_charging() {
+  constexpr uint8_t pin = 0;
+  uint8_t gpio_in = this->_read_reg(REG_GPIO_IN);
+  ESP_LOGV(TAG, "GPIO_IN=0x%02X", gpio_in);
+  return ((gpio_in >> pin) & 0x01) == 0;
+}
+
 }  // namespace m5pm1
 }  // namespace esphome

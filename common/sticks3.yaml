@@ -36,6 +36,13 @@ m5pm1:
   i2c_id: i2c_internal
   address: 0x6E
 
+binary_sensor:
+  - platform: template
+    id: battery_charging
+    name: Battery Charging
+    lambda:
+      return id(m5pm1_id).is_charging();
+
 output:
   - platform: ledc
     id: output_backlight

@@ -28,6 +28,8 @@ class M5PM1Component : public PollingComponent, public i2c::I2CDevice {
   void set_speaker_amplifier(bool on);
   void shutdown(bool hold = true);
 
+  bool is_charging();
+  
  protected:
   uint8_t _read_reg(uint8_t reg);
   void _write_reg(uint8_t reg, uint8_t val);
