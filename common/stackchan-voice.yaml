@@ -12,6 +12,23 @@ globals:
     restore_value: no
     initial_value: '" "'
 
+text_sensor:
+  - platform: template
+    id: text_va_last_stt
+    name: Voice Assistant Last STT
+    lambda: |-
+      return id(va_last_stt);   
+  - platform: template
+    id: text_va_last_tts
+    name: Voice Assistant Last TTS
+    lambda: |-
+      return id(va_last_tts);
+  - platform: template
+    id: text_va_last_error
+    name: Voice Assistant Last Error
+    lambda: |-
+      return id(va_last_error);
+
 micro_wake_word:
   id: mww
   microphone: i2s_mic
@@ -143,4 +160,9 @@ switch:
             - micro_wake_word.stop:
             - logger.log: "Micro Wake Word stopped."
             - script.execute: on_wake_word_stop
+      - if:
+          condition:
+            - media_player.is_announcing: media_player_stackchan
+          then:
+            - media_player.stop: media_player_stackchan
       - voice_assistant.stop: 
