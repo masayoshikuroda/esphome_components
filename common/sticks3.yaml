@@ -11,6 +11,7 @@ external_components:
       url: https://github.com/masayoshikuroda/esphome_components
       ref: main
     components: [ m5pm1 ]
+    refresh: 1min
 
 psram:
   mode: octal
