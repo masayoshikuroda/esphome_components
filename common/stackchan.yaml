@@ -321,19 +321,20 @@ select:
       - "30"
       - "40"
       - "50"
-      - "75"
-      - "100"
+      - "-10"
+      - "-20"
+      - "-30"
+      - "-40"
+      - "-50"
+      - "110"
+      - "120"
+      - "130"
+      - "140"
+      - "150"
     on_value:
       then:
         - lambda: |-
-            if      (x == "0")    id(mouse_open_ratio) = 0;
-            else if (x == "10")   id(mouse_open_ratio) = 10;
-            else if (x == "20")   id(mouse_open_ratio) = 20;
-            else if (x == "30")   id(mouse_open_ratio) = 30;
-            else if (x == "40")   id(mouse_open_ratio) = 40;
-            else if (x == "50")   id(mouse_open_ratio) = 50;
-            else if (x == "75")   id(mouse_open_ratio) = 75;
-            else                  id(mouse_open_ratio) = 100;
+            id(mouse_open_ratio) = std::stoi(x);
   - platform: template
     id: select_face_expression
     name: "Face Expression"
