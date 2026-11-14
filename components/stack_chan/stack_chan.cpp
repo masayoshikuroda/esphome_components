@@ -26,8 +26,6 @@ void StackChan::draw(Display &it) {
     int w = it.get_width();
     int h = it.get_height();
 
-    // ==== Mouse Open Level ====
-    float mouse_level = h /2 * mouth_open_ratio_/100.0;
     bool idle = mouth_open_ratio_ < 1;
 
     // ===== Face Shake =====
@@ -121,9 +119,16 @@ void StackChan::draw(Display &it) {
     }
 
     // Draw Mouse
-    int open_h = mouth_t + h * mouse_level / 100;
-    int open_w = mouth_t + mouth_w * (1.0 - mouse_level / 100);
-    it.filled_rectangle(cx - open_w/2, mouth_y - open_h/2, open_w,open_h, fore_color_);
+    float mor = (std::abs(mouth_open_ratio_) % 100)/ 100.0;
+    int open_h = mouth_t + h * mor;
+    int open_w = mouth_t + mouth_w * (1.0 - mor);
+    if (mouth_open_ratio_ < 0) {
+        it.filled_rectangle(cx - open_w/2, mouth_y - open_h  , open_w, open_h, fore_color_);
+    } else if (mouth_open_ratio_ > 100) {
+        it.filled_rectangle(cx - open_w/2, mouth_y           , open_w, open_h, fore_color_);
+    } else {
+        it.filled_rectangle(cx - open_w/2, mouth_y - open_h/2, open_w, open_h, fore_color_);
+    }
 }
 
 }  // namespace graph
