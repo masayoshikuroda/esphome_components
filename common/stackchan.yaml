@@ -21,8 +21,8 @@ stack_chan:
     eye_blink_interval: 5      # seconds
     eye_blink_duration: 120.   # mili-sencods
     mouse_offset_y: 10         # % of display height
-    mouse_width: 30            # % of display width
-    mouse_thickness: 2.5       # % of display height
+    mouse_width: 28            # % of display width
+    mouse_thickness: 1.0       # % of display height
     mouse_open_ratio: 0        # %
 
 number:
