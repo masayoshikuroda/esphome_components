@@ -221,6 +221,19 @@ number:
     set_action:
       - lambda: |-
           id(face).set_mouth_thickness(x);
+  - platform: template
+    id: mouse_open_ratio
+    name: Mouse Open Ratio
+    entity_category: config
+    min_value:  0
+    max_value: 100
+    step: 1
+    unit_of_measurement: "%"
+    lambda: |-
+      return id(face).get_mouth_open_ratio(); 
+    set_action:
+      - lambda: |-
+          id(face).set_mouth_open_ratio(x);
 
 globals:
   - id: face_backcolor
@@ -232,9 +245,9 @@ globals:
   - id: face_expression
     type: esphome::stack_chan::FaceExpression
     initial_value: esphome::stack_chan::Neutral
-  - id: mouse_open_ratio
-    type: int
-    initial_value: '0'
+#  - id: mouse_open_ratio
+#    type: int
+#    initial_value: '0'
 
 select:
   - platform: template
@@ -309,32 +322,6 @@ select:
             else if (x == "lightgray")  id(face_backcolor) = id(color_lightgray);
             else if (x == "darkgray")   id(face_backcolor) = id(color_darkgray);
             else                        id(face_backcolor) = id(color_black);
-  - platform: template
-    id: select_mouse_open_ratio
-    name: "Mouse Open Ratio"
-    entity_category: config
-    optimistic: true
-    options:
-      - "0"
-      - "10"
-      - "20"
-      - "30"
-      - "40"
-      - "50"
-      - "-10"
-      - "-20"
-      - "-30"
-      - "-40"
-      - "-50"
-      - "110"
-      - "120"
-      - "130"
-      - "140"
-      - "150"
-    on_value:
-      then:
-        - lambda: |-
-            id(mouse_open_ratio) = std::stoi(x);
   - platform: template
     id: select_face_expression
     name: "Face Expression"

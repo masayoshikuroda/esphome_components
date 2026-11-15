@@ -93,8 +93,6 @@ voice_assistant:
     - script.execute: on_voice_assistant_speaking
   on_tts_stream_end:
     - logger.log: VA on_tts_stream_end...
-    - lambda: |-
-        id(mouse_open_ratio) = 0;
     - script.execute: on_voice_assistant_spoken
   on_error:
     - logger.log: VA on_error...
@@ -176,7 +174,9 @@ script:
         level = std::min(max_level, level);
         level = std::max(min_level, level);
         int ratio = (int)((level - min_level) / (max_level - min_level) * 100.0f);
-        id(mouse_open_ratio) = ratio;
+        auto call = id(mouse_open_ratio).make_call();
+        call.set_value(ratio);
+        call.perform();
   - id: update_mouth_open_ratio_with_speaker_volume
     parameters:
       max_level: float
@@ -187,4 +187,6 @@ script:
         level = std::min(max_level, level);
         level = std::max(min_level, level);
         int ratio = (int)((level - min_level) / (max_level - min_level) * 100.0f);
-        id(mouse_open_ratio) = ratio;
+        auto call = id(mouse_open_ratio).make_call();
+        call.set_value(ratio);
+        call.perform();
