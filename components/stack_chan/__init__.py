@@ -61,12 +61,14 @@ StackChan_ = stack_chan_ns.class_("StackChan", cg.Component)
 FaceExpression = stack_chan_ns.enum("FaceExpression")
 
 FACE_EXPRESSION_MAP = {
-    "neutral": FaceExpression.Neutral,
-    "angry":   FaceExpression.Angry,
-    "sleepy":  FaceExpression.Sleepy,
-    "happy":   FaceExpression.Happy,
-    "sad":     FaceExpression.Sad,
-    "doubt":   FaceExpression.Doubt,
+    "neutral":    FaceExpression.Neutral,
+    "angry":      FaceExpression.Angry,
+    "sleepy":     FaceExpression.Sleepy,
+    "happy":      FaceExpression.Happy,
+    "sad":        FaceExpression.Sad,
+    "doubt":      FaceExpression.Doubt,
+    "wink_left":  FaceExpression.WinkLeft,
+    "wink_right": FaceExpression.WinkLeft,
 }
 
 MouthOpenType = stack_chan_ns.enum("MouthOpenType")

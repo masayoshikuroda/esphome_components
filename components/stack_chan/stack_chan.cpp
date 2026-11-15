@@ -113,6 +113,14 @@ void StackChan::draw(Display &it) {
         it.filled_rectangle(cx - eye_dx - doubt_eye_r, eye_y - doubt_eye_r, 2*doubt_eye_r + 1, doubt_eye_r, back_color_);
         it.filled_rectangle(cx + eye_dx - doubt_eye_r, eye_y - doubt_eye_r, 2*doubt_eye_r + 1, doubt_eye_r, back_color_);
         break;
+    case FaceExpression::WinkLeft:
+        it.filled_circle(cx - eye_dx, eye_y, eye_r, fore_color_);
+        it.filled_rectangle(cx + eye_dx - sleepy_eye_r, eye_y, 2*sleepy_eye_r, eye_t, fore_color_);
+        break;
+    case FaceExpression::WinkRight:
+        it.filled_rectangle(cx - eye_dx - sleepy_eye_r, eye_y, 2*sleepy_eye_r, eye_t, fore_color_);
+        it.filled_circle(cx + eye_dx, eye_y, eye_r, fore_color_);
+        break;
     default:
         if (!blinking_) {
             it.filled_circle(cx - eye_dx, eye_y, eye_r, fore_color_);

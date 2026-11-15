@@ -14,7 +14,7 @@ class BaseFont;
 }  // namespace display
 
 namespace stack_chan {
-    enum FaceExpression { Neutral, Angry, Sleepy, Happy, Sad, Doubt };
+    enum FaceExpression { Neutral, Angry, Sleepy, Happy, Sad, Doubt, WinkLeft, WinkRight };
     enum MouthOpenType { Symmetric, UpperOnly, LowerOnly };
 
     class StackChan;

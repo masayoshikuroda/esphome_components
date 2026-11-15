@@ -323,16 +323,21 @@ select:
       - Happy
       - Sad
       - Doubt
+      - WinkLeft
+      - WinkRight
     on_value:
       then:
         - lambda: |-
             using Expr = esphome::stack_chan::FaceExpression;
-            if      (x == "Angry")  id(face).set_face_expression(Expr::Angry);
-            else if (x == "Sleepy") id(face).set_face_expression(Expr::Sleepy);
-            else if (x == "Happy")  id(face).set_face_expression(Expr::Happy);
-            else if (x == "Sad")    id(face).set_face_expression(Expr::Sad);
-            else if (x == "Doubt")  id(face).set_face_expression(Expr::Doubt);
-            else                    id(face).set_face_expression(Expr::Neutral);
+            if      (x == "Neutral")    id(face).set_face_expression(Expr::Neutral);
+            else if (x == "Angry")      id(face).set_face_expression(Expr::Angry);
+            else if (x == "Sleepy")     id(face).set_face_expression(Expr::Sleepy);
+            else if (x == "Happy")      id(face).set_face_expression(Expr::Happy);
+            else if (x == "Sad")        id(face).set_face_expression(Expr::Sad);
+            else if (x == "Doubt")      id(face).set_face_expression(Expr::Doubt);
+            else if (x == "WinkLeft")   id(face).set_face_expression(Expr::WinkLeft);
+            else if (x == "WinkRight")  id(face).set_face_expression(Expr::WinkRight);
+            else                        id(face).set_face_expression(Expr::Neutral);
   - platform: template
     name: "Mouth Open Type"
     id: select_mouth_open_type
