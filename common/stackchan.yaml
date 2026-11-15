@@ -236,20 +236,6 @@ number:
       - lambda: |-
           id(face).set_mouth_open_ratio(x);
 
-globals:
-  - id: face_backcolor
-    type: Color
-    initial_value: 'id(color_black)'
-  - id: face_forecolor
-    type: Color
-    initial_value: 'id(color_white)'
-  - id: face_expression
-    type: esphome::stack_chan::FaceExpression
-    initial_value: esphome::stack_chan::Neutral
-  - id: mouth_open_type
-    type: esphome::stack_chan::MouthOpenType
-    initial_value: esphome::stack_chan::Symmetric
-
 select:
   - platform: template
     id: select_forecolor
@@ -274,19 +260,19 @@ select:
     on_value:
       then:
         - lambda: |-
-            if      (x == "red")        id(face_forecolor) = id(color_red);
-            else if (x == "orange")     id(face_forecolor) = id(color_orange);
-            else if (x == "yellow")     id(face_forecolor) = id(color_yellow);
-            else if (x == "green")      id(face_forecolor) = id(color_green);
-            else if (x == "blue")       id(face_forecolor) = id(color_blue);
-            else if (x == "purple")     id(face_forecolor) = id(color_purple);
-            else if (x == "white")      id(face_forecolor) = id(color_white);
-            else if (x == "cyan")       id(face_forecolor) = id(color_cyan);
-            else if (x == "magenta")    id(face_forecolor) = id(color_magenta);
-            else if (x == "gray")       id(face_forecolor) = id(color_gray);
-            else if (x == "lightgray")  id(face_forecolor) = id(color_lightgray);
-            else if (x == "darkgray")   id(face_forecolor) = id(color_darkgray);
-            else                        id(face_forecolor) = id(color_black);
+            if      (x == "red")        id(face).set_fore_color(id(color_red));
+            else if (x == "orange")     id(face).set_fore_color(id(color_orange));
+            else if (x == "yellow")     id(face).set_fore_color(id(color_yellow));
+            else if (x == "green")      id(face).set_fore_color(id(color_green));
+            else if (x == "blue")       id(face).set_fore_color(id(color_blue));
+            else if (x == "purple")     id(face).set_fore_color(id(color_purple));
+            else if (x == "white")      id(face).set_fore_color(id(color_white));
+            else if (x == "cyan")       id(face).set_fore_color(id(color_cyan));
+            else if (x == "magenta")    id(face).set_fore_color(id(color_magenta));
+            else if (x == "gray")       id(face).set_fore_color(id(color_gray));
+            else if (x == "lightgray")  id(face).set_fore_color(id(color_lightgray));
+            else if (x == "darkgray")   id(face).set_fore_color(id(color_darkgray));
+            else                        id(face).set_fore_color(id(color_white));
   - platform: template
     id: select_backcolor
     name: "Face Color Back"
@@ -310,19 +296,19 @@ select:
     on_value:
       then:
         - lambda: |-
-            if      (x == "red")        id(face_backcolor) = id(color_red);
-            else if (x == "orange")     id(face_backcolor) = id(color_orange);
-            else if (x == "yellow")     id(face_backcolor) = id(color_yellow);
-            else if (x == "green")      id(face_backcolor) = id(color_green);
-            else if (x == "blue")       id(face_backcolor) = id(color_blue);
-            else if (x == "purple")     id(face_backcolor) = id(color_purple);
-            else if (x == "white")      id(face_backcolor) = id(color_white);
-            else if (x == "cyan")       id(face_backcolor) = id(color_cyan);
-            else if (x == "magenta")    id(face_backcolor) = id(color_magenta);
-            else if (x == "gray")       id(face_backcolor) = id(color_gray);
-            else if (x == "lightgray")  id(face_backcolor) = id(color_lightgray);
-            else if (x == "darkgray")   id(face_backcolor) = id(color_darkgray);
-            else                        id(face_backcolor) = id(color_black);
+            if      (x == "red")        id(face).set_back_color(id(color_red));
+            else if (x == "orange")     id(face).set_back_color(id(color_orange));
+            else if (x == "yellow")     id(face).set_back_color(id(color_yellow));
+            else if (x == "green")      id(face).set_back_color(id(color_green));
+            else if (x == "blue")       id(face).set_back_color(id(color_blue));
+            else if (x == "purple")     id(face).set_back_color(id(color_purple));
+            else if (x == "white")      id(face).set_back_color(id(color_white));
+            else if (x == "cyan")       id(face).set_back_color(id(color_cyan));
+            else if (x == "magenta")    id(face).set_back_color(id(color_magenta));
+            else if (x == "gray")       id(face).set_back_color(id(color_gray));
+            else if (x == "lightgray")  id(face).set_back_color(id(color_lightgray));
+            else if (x == "darkgray")   id(face).set_back_color(id(color_darkgray));
+            else                        id(face).set_back_color(id(color_black));
   - platform: template
     id: select_face_expression
     name: "Face Expression"
@@ -339,12 +325,12 @@ select:
       then:
         - lambda: |-
             using Expr = esphome::stack_chan::FaceExpression;
-            if      (x == "Angry")  id(face_expression) = Expr::Angry;
-            else if (x == "Sleepy") id(face_expression) = Expr::Sleepy;
-            else if (x == "Happy")  id(face_expression) = Expr::Happy;
-            else if (x == "Sad")    id(face_expression) = Expr::Sad;
-            else if (x == "Doubt")  id(face_expression) = Expr::Doubt;
-            else                    id(face_expression) = Expr::Neutral;
+            if      (x == "Angry")  id(face).set_face_expression(Expr::Angry);
+            else if (x == "Sleepy") id(face).set_face_expression(Expr::Sleepy);
+            else if (x == "Happy")  id(face).set_face_expression(Expr::Happy);
+            else if (x == "Sad")    id(face).set_face_expression(Expr::Sad);
+            else if (x == "Doubt")  id(face).set_face_expression(Expr::Doubt);
+            else                    id(face).set_face_expression(Expr::Neutral);
   - platform: template
     name: "Mouth Open Type"
     id: select_mouth_open_type
