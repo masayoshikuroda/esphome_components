@@ -59,11 +59,9 @@ voice_assistant:
   on_client_connected:
     - logger.log: VA on_client_connected...
     - script.execute: on_client_connected
-    - switch.turn_on: switch_wake_word
   on_client_disconnected:
     - logger.log: VA on_client_disconnected...
     - script.execute: on_client_disconnected
-    - switch.turn_off: switch_wake_word
   on_start:
     - logger.log: VA on_start...
     - script.execute: on_voice_assistant_start
