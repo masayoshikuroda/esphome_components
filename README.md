@@ -186,6 +186,7 @@ interval:
           int ratio = (int)base_value;
           id(face).set_mouth_open_ratio(ratio);
 ```
+
 ### 漫符の表示
 
 絵文字を使って、画面右上に表示するもが簡単。
@@ -258,15 +259,21 @@ StackChanをAIアシスタントとして動作させます。
 ・・・
 packages:
   ・・・
-  colors:               github://masayoshikuroda/esphome_components/common/colors.yaml@main
-  fonts:                github://masayoshikuroda/esphome_components/common/fonts.yaml@main
-  fonts-ja:             github://masayoshikuroda/esphome_components/common/fonts-ja.yaml@main
-  fonts-emoji:          github://masayoshikuroda/esphome_components/common/fonts-emoji.yaml@main
-  stackchan:            github://masayoshikuroda/esphome_components/common/stackchan.yaml@main
-  stackchan-decoration: github://masayoshikuroda/esphome_components/common/stackchan-decoration.yaml@main
-  stackchan-baloon:     github://masayoshikuroda/esphome_components/common/stackchan-baloon.yaml@main
-  stackchan-audio:      github://masayoshikuroda/esphome_components/common/stackchan-audio.yaml@main
-  stackchan-voice:      github://masayoshikuroda/esphome_components/common/stackchan-voice.yaml@main
+  remote_package_files:
+    url: https://github.com/masayoshikuroda/esphome_components/
+    files:
+      - common/colors.yaml
+      - common/fonts.yaml
+      - common/fonts-ja.yaml
+      - common/fonts-emoji.yaml
+      - common/fonts-mdi.yaml
+      - common/stackchan.yaml
+      - common/stackchan-decoration.yaml
+      - common/stackchan-baloon.yaml
+      - common/stackchan-audio.yaml
+      - common/stackchan-voice.yaml
+    ref: main
+    refresh: 1min
 ・・・
 microphone:
   - platform: i2s_audio
@@ -281,27 +288,46 @@ display:
     pages:
       - id: stackchan
         lambda: |-
-          it.fill(id(face_backcolor));
-          id(face)->set_back_color(id(face_backcolor));
-          id(face)->set_fore_color(id(face_forecolor));
-          id(face)->set_face_expression(id(face_expression));
-          id(face).set_mouth_open_ratio(id(mouse_open_ratio));
+          // calculate stackchan mouse open ratio with speaker volume
+          if (id(i2s_speaker).is_running()) {
+            id(update_mouth_open_ratio_with_speaker_volume).execute(360, 0);
+          }
+
+          // draw stackchan face
+          it.fill(id(face).get_back_color());
           id(face)->draw(it);
-          it.print(it.get_width(), 0, id(font_40_emoji), id(face_forecolor), TextAlign::TOP_RIGHT, id(face_decoration).c_str());
-          it.printf(it.get_width()/2, it.get_height(), id(font_20_gothic), id(face_forecolor), TextAlign::BOTTOM_CENTER, id(face_message).c_str());
+
+          // draw stackchan decoration
+          int offset = 5;
+          it.print(it.get_width() - offset, offset, id(font_40_emoji), id(face).get_fore_color(),
+            TextAlign::TOP_RIGHT, id(face_decoration).c_str());
+          
+          // draw stackchan balooon
+          it.printf(it.get_width()/2, it.get_height(), id(font_20_gothic), id(face).get_fore_color(), TextAlign::BOTTOM_CENTER, id(face_message).c_str());
+          
+          // draw status icons in toolbar
+          auto print_status = [&](int pos, const char* text) -> void {
+            int width = 20;
+            it.print(pos * width, 0, id(font_20_mdi), id(face).get_fore_color(), text);
+          };
+          print_status(0, id(i2s_mic).is_running()     ? "\U000F036C" : "");
+          print_status(1, id(i2s_speaker).is_running() ? "\U000F04C3" : "");
+          print_status(2, id(mww).is_running()         ? "\U000F0C2D" : "");
+          print_status(3, id(va).is_running()          ? "\U000F0064" : "");
 
 script:
   - id: on_client_connected
     then:
      - lambda: |-
         id(face_decoration) = "";
-        id(face_message) = "CONNECTED"; 
+        id(face_message) = "CONNECTED";
+     - switch.turn_on: switch_wake_word
   - id: on_client_disconnected
     then:
      - lambda: |-
         id(face_decoration) = "";
         id(face_message) = "DISCONNECTED";   
-  - id: on_wake_word_start
+     - switch.turn_off: switch_wake_word
     then:
       - lambda: |-
           id(face_decoration) = "";
@@ -336,11 +362,6 @@ script:
     - lambda: |-
         id(face_decoration) = "🌐";
         id(face_message) = "THINKING";
-  - id: on_voice_assistant_speaking
-    then:
-    - lambda: |-
-        id(face_decoration) = "📢";
-        id(face_message) = "SPEAKING";
   - id: on_voice_assistant_error
     then:
     - lambda: |-
@@ -348,6 +369,16 @@ script:
         id(face_message) = "ERROR";
   - id: on_voice_assistant_end
     then:
+  - id: on_voice_assistant_speaking
+    then:
+    - lambda: |-
+        id(face_decoration) = "📢";
+        id(face_message) = id(va_last_tts);
+  - id: on_voice_assistant_spoken
+    then:
+    - lambda: |-
+        id(face_decoration) = "";
+        id(face_message) = "";
 
 web_server:
   port: 8888
