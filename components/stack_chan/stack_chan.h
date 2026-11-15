@@ -14,7 +14,8 @@ class BaseFont;
 }  // namespace display
 
 namespace stack_chan {
-    enum  FaceExpression { Neutral, Angry, Sleepy, Happy, Sad, Doubt };
+    enum FaceExpression { Neutral, Angry, Sleepy, Happy, Sad, Doubt };
+    enum MouthOpenType { Symmetric, UpperOnly, LowerOnly };
 
     class StackChan;
 
@@ -65,7 +66,9 @@ namespace stack_chan {
             float get_mouth_thickness() const { return mouth_thickness_; }
             void set_mouth_open_ratio(int v) { mouth_open_ratio_ = v; }
             int get_mouth_open_ratio() const { return mouth_open_ratio_; }
-            
+            void set_mouth_open_type(MouthOpenType type) { mouth_open_type_ = type; }
+            MouthOpenType get_mouth_open_type() { return mouth_open_type_; }
+
         protected:
             Color back_color_ = Color::BLACK;
             Color fore_color_ = Color::WHITE;
@@ -86,6 +89,7 @@ namespace stack_chan {
             int mouth_width_ = 30;
             float mouth_thickness_ = 2.0f;
             int mouth_open_ratio_ = 0;
+            MouthOpenType mouth_open_type_ = MouthOpenType::Symmetric;
 
         private:
             uint32_t blink_end_ = 0;

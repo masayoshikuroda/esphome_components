@@ -49,10 +49,11 @@ CONF_EYE_RADIUS = "eye_radius"
 CONF_EYE_THICKNESS = "eye_thickness"
 CONF_EYE_BLINK_INTERVAL = "eye_blink_interval"
 CONF_EYE_BLINK_DURATION = "eye_blink_duration"
-CONF_MOUTH_OFFSET_Y = "mouse_offset_y"
-CONF_MOUTH_WIDTH = "mouse_width"
-CONF_MOUTH_THICKNESS = "mouse_thickness"
-CONF_MOUTH_OPEN_RATIO = "mouse_open_ratio"
+CONF_MOUTH_OFFSET_Y = "mouth_offset_y"
+CONF_MOUTH_WIDTH = "mouth_width"
+CONF_MOUTH_THICKNESS = "mouth_thickness"
+CONF_MOUTH_OPEN_RATIO = "mouth_open_ratio"
+CONF_MOUTH_OPEN_TYPE = "mouth_open_type"
 
 stack_chan_ns = cg.esphome_ns.namespace("stack_chan")
 StackChan_ = stack_chan_ns.class_("StackChan", cg.Component)
@@ -66,6 +67,14 @@ FACE_EXPRESSION_MAP = {
     "happy":   FaceExpression.Happy,
     "sad":     FaceExpression.Sad,
     "doubt":   FaceExpression.Doubt,
+}
+
+MouthOpenType = stack_chan_ns.enum("MouthOpenType")
+
+MOUTH_OPEN_TYPE_MAP = {
+    "symmetric":  MouthOpenType.Symmetric,
+    "upper_only": MouthOpenType.UpperOnly,
+    "lower_only": MouthOpenType.LowerOnly,
 }
 
 CONFIG_SCHEMA = cv.Schema({
@@ -87,6 +96,7 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Optional(CONF_MOUTH_WIDTH, default=30): cv.int_,
     cv.Optional(CONF_MOUTH_THICKNESS, default=2.0): cv.float_,
     cv.Optional(CONF_MOUTH_OPEN_RATIO, default=0): cv.int_,
+    cv.Optional(CONF_MOUTH_OPEN_TYPE, default="symmetric"): cv.enum(MOUTH_OPEN_TYPE_MAP, lower=True),
 }).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):
@@ -110,3 +120,4 @@ async def to_code(config):
     cg.add(var.set_mouth_width(config[CONF_MOUTH_WIDTH]))
     cg.add(var.set_mouth_thickness(config[CONF_MOUTH_THICKNESS]))
     cg.add(var.set_mouth_open_ratio(config[CONF_MOUTH_OPEN_RATIO]))
+    cg.add(var.set_mouth_open_type(config[CONF_MOUTH_OPEN_TYPE]))

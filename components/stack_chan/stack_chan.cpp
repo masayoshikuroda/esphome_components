@@ -128,9 +128,9 @@ void StackChan::draw(Display &it) {
     float mor = (std::abs(mouth_open_ratio_) % 100)/ 100.0;
     int open_h = mouth_t + h * mor;
     int open_w = mouth_t + mouth_w * (1.0 - mor);
-    if (mouth_open_ratio_ < 0) {
+    if (mouth_open_type_ == MouthOpenType::UpperOnly) {
         it.filled_rectangle(cx - open_w/2, mouth_y - open_h  , open_w, open_h, fore_color_);
-    } else if (mouth_open_ratio_ > 100) {
+    } else if (mouth_open_type_ == MouthOpenType::LowerOnly) {
         it.filled_rectangle(cx - open_w/2, mouth_y           , open_w, open_h, fore_color_);
     } else {
         it.filled_rectangle(cx - open_w/2, mouth_y - open_h/2, open_w, open_h, fore_color_);
