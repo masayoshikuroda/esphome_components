@@ -20,10 +20,11 @@ stack_chan:
     eye_radius: 2.5            # % of display width
     eye_blink_interval: 5      # seconds
     eye_blink_duration: 120.   # mili-sencods
-    mouse_offset_y: 10         # % of display height
-    mouse_width: 28            # % of display width
-    mouse_thickness: 2.0       # % of display height
-    mouse_open_ratio: 0        # %
+    mouth_offset_y: 10         # % of display height
+    mouth_width: 28            # % of display width
+    mouth_thickness: 2.0       # % of display height
+    mouth_open_ratio: 0        # %
+    mouth_open_type: symmetric # one of symmetric, upper_only, lower_only
 
 number:
   - platform: template
@@ -222,8 +223,8 @@ number:
       - lambda: |-
           id(face).set_mouth_thickness(x);
   - platform: template
-    id: mouse_open_ratio
-    name: Mouse Open Ratio
+    id: mouth_open_ratio
+    name: Mouth Open Ratio
     entity_category: config
     min_value:  0
     max_value: 100
@@ -245,9 +246,9 @@ globals:
   - id: face_expression
     type: esphome::stack_chan::FaceExpression
     initial_value: esphome::stack_chan::Neutral
-#  - id: mouse_open_ratio
-#    type: int
-#    initial_value: '0'
+  - id: mouth_open_type
+    type: esphome::stack_chan::MouthOpenType
+    initial_value: esphome::stack_chan::Symmetric
 
 select:
   - platform: template
@@ -344,5 +345,22 @@ select:
             else if (x == "Sad")    id(face_expression) = Expr::Sad;
             else if (x == "Doubt")  id(face_expression) = Expr::Doubt;
             else                    id(face_expression) = Expr::Neutral;
+  - platform: template
+    name: "Mouth Open Type"
+    id: select_mouth_open_type
+    entity_category: config
+    optimistic: true
+    options:
+      - "Symmetric"
+      - "Upper Only"
+      - "Lower Only"
+    initial_option: "Symmetric"
+    on_value:
+      then:
+        - lambda: |-       
+            using Expr = esphome::stack_chan::MouthOpenType;     
+            if      (x == "Upper Only")  id(face).set_mouth_open_type(Expr::UpperOnly);
+            else if (x == "Lower Only")  id(face).set_mouth_open_type(Expr::LowerOnly);
+            else                         id(face).set_mouth_open_type(Expr::Symmetric);
 
 

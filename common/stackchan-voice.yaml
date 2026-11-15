@@ -174,7 +174,7 @@ script:
         level = std::min(max_level, level);
         level = std::max(min_level, level);
         int ratio = (int)((level - min_level) / (max_level - min_level) * 100.0f);
-        auto call = id(mouse_open_ratio).make_call();
+        auto call = id(mouth_open_ratio).make_call();
         call.set_value(ratio);
         call.perform();
   - id: update_mouth_open_ratio_with_speaker_volume
@@ -187,6 +187,6 @@ script:
         level = std::min(max_level, level);
         level = std::max(min_level, level);
         int ratio = (int)((level - min_level) / (max_level - min_level) * 100.0f);
-        auto call = id(mouse_open_ratio).make_call();
+        auto call = id(mouth_open_ratio).make_call();
         call.set_value(ratio);
         call.perform();
