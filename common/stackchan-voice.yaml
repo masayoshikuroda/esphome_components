@@ -164,3 +164,27 @@ switch:
           then:
             - media_player.stop: media_player_stackchan
       - voice_assistant.stop: 
+
+script:
+  - id: update_mouth_open_ratio_with_mic_volume
+    parameters:
+      max_level: float
+      min_level: float
+    then:
+    - lambda: |-
+        float level = id(sensor_sound_level_rms).state;
+        level = std::min(max_level, level);
+        level = std::max(min_level, level);
+        int ratio = (int)((level - min_level) / (max_level - min_level) * 100.0f);
+        id(mouse_open_ratio) = ratio;
+  - id: update_mouth_open_ratio_with_speaker_volume
+    parameters:
+      max_level: float
+      min_level: float
+    then:
+    - lambda: |-
+        float level = id(speaker_vu_meter).state;
+        level = std::min(max_level, level);
+        level = std::max(min_level, level);
+        int ratio = (int)((level - min_level) / (max_level - min_level) * 100.0f);
+        id(mouse_open_ratio) = ratio;
