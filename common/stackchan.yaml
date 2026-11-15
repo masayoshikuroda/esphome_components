@@ -272,7 +272,7 @@ select:
             else if (x == "gray")       id(face).set_fore_color(id(color_gray));
             else if (x == "lightgray")  id(face).set_fore_color(id(color_lightgray));
             else if (x == "darkgray")   id(face).set_fore_color(id(color_darkgray));
-            else if (x == "black")      id(face).set_back_color(id(color_black));
+            else if (x == "black")      id(face).set_fore_color(id(color_black));
             else                        id(face).set_fore_color(id(color_white));
   - platform: template
     id: select_backcolor
