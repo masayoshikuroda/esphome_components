@@ -1,3 +1,4 @@
+# based on https://github.com/m5stack/esphome-yaml/blob/main/common/stackchan-voice-assistant-base.yaml
 esp32:
   variant: esp32s3
   flash_size: 16MB
@@ -10,7 +11,10 @@ esp32:
       CONFIG_SPIRAM_USE_MALLOC: y
 
 external_components:
-  - source: github://m5stack/esphome-yaml/components
+  - source: 
+      type: git
+      url: http://github.com/m5stack/esphome-yaml
+      ref: main
     components: [axp2101, aw9523b]
     refresh: 1d
 
