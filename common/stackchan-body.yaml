@@ -24,7 +24,10 @@ globals:
     update_interval: "100ms"
 
 external_components:
-  - source: github://m5stack/esphome-yaml/components
+  - source: 
+      type: git
+      url: http://github.com//m5stack/esphome-yaml
+      ref: main
     components: [m5ioe1, si12t, scs9009, ftservo]
     refresh: 1d
 
