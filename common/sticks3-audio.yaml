@@ -1,10 +1,9 @@
-
 audio_dac:
   - platform: es8311
     id: es8311_dac
     i2c_id: i2c_internal
-    bits_per_sample: 16bit
-    sample_rate: 16000
+    bits_per_sample: 32bit
+    sample_rate: 48000
     use_microphone: false
     use_mclk: true 
 
@@ -13,33 +12,46 @@ i2s_audio:
     i2s_lrclk_pin: 15
     i2s_bclk_pin: 17
     i2s_mclk_pin: 18
+    full_duplex: false
 
 microphone:
   - platform: i2s_audio
-    id: i2s_mic
+    id: microphone_internal
     i2s_audio_id: i2s_audio_bus
     i2s_din_pin: 16
     adc_type: external
     pdm: false
     i2s_mode: primary
-    sample_rate: 16000
-    bits_per_sample: 16bit
+    sample_rate: 48000
+    bits_per_sample: 32bit
     channel: left
     mclk_multiple: 256
+  - platform: resampler
+    id: i2s_mic
+    microphone:
+      microphone: microphone_internal
+      bits_per_sample: 32
+    sample_rate: 16000
 
 speaker:
   - platform: i2s_audio
-    id: i2s_speaker
+    id: speaker_internal
     i2s_audio_id: i2s_audio_bus
     i2s_dout_pin: GPIO14
     dac_type: external
     audio_dac: es8311_dac
     i2s_mode: primary
-    sample_rate: 16000
-    bits_per_sample: 16bit
+    sample_rate: 48000
+    bits_per_sample: 32bit
     channel: left
     buffer_duration: 1s
     timeout: 3s
+    mclk_multiple: 256
+  - platform: resampler
+    id: i2s_speaker
+    output_speaker: speaker_internal
+    sample_rate: 48000
+    bits_per_sample: 32
 
 media_player:
   - platform: speaker
