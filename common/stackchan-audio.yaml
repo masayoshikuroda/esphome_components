@@ -7,10 +7,10 @@ switch:
     lambda: |-
       return id(i2s_mic).get_mute_state();
     turn_on_action:
-      - microphone.mute: 
+      - microphone.mute: i2s_mic
       - logger.log: "Microphone muted."
     turn_off_action:
-      - microphone.unmute: 
+      - microphone.unmute: i2s_mic
       - logger.log: "Microphone unmuted."
   - platform: template
     id: switch_microphone_capture
@@ -20,10 +20,10 @@ switch:
     lambda: |-
       return id(i2s_mic).is_running();
     turn_on_action:
-      - microphone.capture: 
+      - microphone.capture: i2s_mic
       - logger.log: "Microphone capture started."
     turn_off_action:
-      - microphone.stop_capture: 
+      - microphone.stop_capture: i2s_mic
       - logger.log: "Microphone capture stopped."
 
 external_components:
@@ -36,6 +36,7 @@ external_components:
 sensor:
   - platform: sound_level
     id: sensor_sound_level
+    microphone: i2s_mic
     passive: true
     measurement_duration: 66ms
     rms:
