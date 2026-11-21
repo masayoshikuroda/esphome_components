@@ -31,7 +31,7 @@ text_sensor:
 
 micro_wake_word:
   id: mww
-  microphone: i2s_mic
+  microphone: microphone_stackchan
   stop_after_detection: true
   task_stack_in_psram: true
   models:
@@ -51,7 +51,7 @@ micro_wake_word:
 voice_assistant:
   id: va
   microphone:
-    microphone: i2s_mic
+    microphone: microphone_stackchan
     gain_factor: 4
   speaker: speaker_vu_meter
   noise_suppression_level: 2
@@ -158,9 +158,9 @@ switch:
             - script.execute: on_wake_word_stop
       - if:
           condition:
-            - media_player.is_announcing: media_player_stackchan
+            - speaker.is_playing : speaker_stackchan
           then:
-            - media_player.stop: media_player_stackchan
+            - speaker.stop: speaker_stackchan
       - voice_assistant.stop: 
 
 script:

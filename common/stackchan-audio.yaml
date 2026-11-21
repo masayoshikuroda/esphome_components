@@ -1,3 +1,20 @@
+microphone:
+  - platform: resampler
+    id: microphone_stackchan
+    microphone:
+      microphone: microphone_internal
+      bits_per_sample: 32
+    sample_rate: 16000
+
+speaker:
+  - platform: resampler
+    id: speaker_stackchan
+    output_speaker: speaker_internal
+    sample_rate: 16000
+    bits_per_sample: 32
+    task_stack_in_psram: true
+#    buffer_duration: 1000ms
+    
 switch:
   - platform: template
     id: switch_microphone_mute
@@ -5,12 +22,12 @@ switch:
     icon: "mdi:microphone-off"
     optimistic: true
     lambda: |-
-      return id(i2s_mic).get_mute_state();
+      return id(microphone_stackchan).get_mute_state();
     turn_on_action:
-      - microphone.mute: i2s_mic
+      - microphone.mute: microphone_stackchan
       - logger.log: "Microphone muted."
     turn_off_action:
-      - microphone.unmute: i2s_mic
+      - microphone.unmute: microphone_stackchan
       - logger.log: "Microphone unmuted."
   - platform: template
     id: switch_microphone_capture
@@ -18,12 +35,12 @@ switch:
     icon: "mdi:microphone-off"
     optimistic: true
     lambda: |-
-      return id(i2s_mic).is_running();
+      return id(microphone_stackchan).is_running();
     turn_on_action:
-      - microphone.capture: i2s_mic
+      - microphone.capture: microphone_stackchan
       - logger.log: "Microphone capture started."
     turn_off_action:
-      - microphone.stop_capture: i2s_mic
+      - microphone.stop_capture: microphone_stackchan
       - logger.log: "Microphone capture stopped."
 
 external_components:
@@ -36,7 +53,7 @@ external_components:
 sensor:
   - platform: sound_level
     id: sensor_sound_level
-    microphone: i2s_mic
+    microphone: microphone_stackchan
     passive: true
     measurement_duration: 66ms
     rms:
@@ -51,7 +68,7 @@ sensor:
         - offset: 65.0
   - platform: vu_meter
     id: speaker_vu_meter
-    source: i2s_speaker
+    source: speaker_stackchan
     name: "Speaker VU Meter"
     update_interval_ms: 33
 
