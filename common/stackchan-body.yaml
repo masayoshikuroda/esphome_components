@@ -67,14 +67,14 @@ switch:
 light:
   - platform: monochromatic
     id: lcd_backlight
-    name: "LCD Backlight"
+    name: "Display Backlight"
     icon: "mdi:television"
     output: lcd_backlight_output
     restore_mode: RESTORE_DEFAULT_ON
     default_transition_length: 250ms
   - platform: m5ioe1
-    id: stackchan_light_bar
-    name: "StackChan Light Bar"
+    id: light_bar
+    name: "Light Bar"
     icon: mdi:led-strip
     num_led: 12
     effects:
