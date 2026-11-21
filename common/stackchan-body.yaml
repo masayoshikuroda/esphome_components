@@ -293,6 +293,7 @@ number:
 button:
   - platform: template
     name: "Servo Calibration Start"
+    entity_category: diagnostic
     on_press:
       - lambda: |-
           ESP_LOGD("ftservo", "Start calibration");
@@ -317,6 +318,7 @@ button:
 
   - platform: template
     name: "Servo Calibration Clear"
+    entity_category: diagnostic
     on_press:
       - lambda: |-
           ESP_LOGD("ftservo", "Restore to default settings");
@@ -328,6 +330,16 @@ button:
           ESP_LOGD("ftservo", "Preferences sync requested");
           global_preferences->sync(); // sync at once
           ESP_LOGD("ftservo", "Done clear calibration");
+  - platform: template
+    name: "Servo Position Home"
+    entity_category: diagnostic
+    on_press:
+      - number.set:
+          id: servo_x_angle
+          value: !lambda 'return 0;'
+      - number.set:
+          id: servo_y_angle
+          value: !lambda 'return 10;'
 
 script:
   - id: restore_servo_calibration_values

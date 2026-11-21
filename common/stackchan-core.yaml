@@ -245,5 +245,7 @@ touchscreen:
 button:
   - platform: restart
     name: "Node Restart"
+    entity_category: diagnostic
   - platform: shutdown
     name: "Node Shutdown"
+    entity_category: diagnostic
