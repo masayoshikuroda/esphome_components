@@ -1,5 +1,8 @@
 external_components:
-  - source: github://m5stack/esphome-yaml/components
+  - source:
+      type: git
+      url: http://github.com/m5stack/esphome-yaml
+      ref: main
     components: [aw88298]
     refresh: 1d
 
@@ -7,7 +10,7 @@ audio_adc:
   - platform: es7210
     id: es7210_adc
     i2c_id: bsp_bus
-    bits_per_sample: 16bit
+    bits_per_sample: 32bit
     sample_rate: 16000
     mic_gain: 36
 
@@ -15,7 +18,7 @@ audio_dac:
   - platform: aw88298
     id: aw88298_dac
     i2c_id: bsp_bus
-    sample_rate: 48000
+    sample_rate: 16000
 
 i2s_audio:
   id: i2s_audio_bus
@@ -24,23 +27,26 @@ i2s_audio:
   i2s_mclk_pin:
     number: GPIO0
     ignore_strapping_warning: true
+#  full_duplex: true
 
 microphone:
   - platform: i2s_audio
-    id: i2s_mic
+    id: microphone_internal
     i2s_din_pin: GPIO14
     adc_type: external
     sample_rate: 16000
-    bits_per_sample: 16bit
+    bits_per_sample: 32bit
     i2s_audio_id: i2s_audio_bus
 
 speaker:
   - platform: i2s_audio
     i2s_audio_id: i2s_audio_bus
-    id: i2s_speaker
+    id: speaker_internal
     dac_type: external
     i2s_dout_pin: GPIO13
     audio_dac: aw88298_dac
+    sample_rate: 16000
+    bits_per_sample: 32bit
 
 media_player:
   - platform: speaker
@@ -49,7 +55,7 @@ media_player:
     volume_min: 0.5
     volume_max: 0.8
     announcement_pipeline:
-      speaker: i2s_speaker
+      speaker: speaker_internal
       format: FLAC
       sample_rate: 48000
       num_channels: 1
