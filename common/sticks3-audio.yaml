@@ -3,7 +3,7 @@ audio_dac:
     id: es8311_dac
     i2c_id: i2c_internal
     bits_per_sample: 32bit
-    sample_rate: 48000
+    sample_rate: 16000
     use_microphone: false
     use_mclk: true 
 
@@ -22,16 +22,10 @@ microphone:
     adc_type: external
     pdm: false
     i2s_mode: primary
-    sample_rate: 48000
+    sample_rate: 16000
     bits_per_sample: 32bit
     channel: left
     mclk_multiple: 256
-  - platform: resampler
-    id: i2s_mic
-    microphone:
-      microphone: microphone_internal
-      bits_per_sample: 32
-    sample_rate: 16000
 
 speaker:
   - platform: i2s_audio
@@ -41,17 +35,12 @@ speaker:
     dac_type: external
     audio_dac: es8311_dac
     i2s_mode: primary
-    sample_rate: 48000
+    sample_rate: 16000
     bits_per_sample: 32bit
     channel: left
     buffer_duration: 1s
     timeout: 3s
     mclk_multiple: 256
-  - platform: resampler
-    id: i2s_speaker
-    output_speaker: speaker_internal
-    sample_rate: 48000
-    bits_per_sample: 32
 
 media_player:
   - platform: speaker
@@ -60,7 +49,7 @@ media_player:
     volume_min: 0.5
     volume_max: 0.8
     announcement_pipeline:
-      speaker: i2s_speaker
+      speaker: speaker_internal
       format: FLAC
       sample_rate: 48000
       num_channels: 1
