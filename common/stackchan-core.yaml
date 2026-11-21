@@ -219,3 +219,31 @@ switch:
       number: 8
     internal: true
     restore_mode: RESTORE_DEFAULT_ON
+
+touchscreen:
+  - platform: ft63x6
+    id: touch
+    i2c_id: bsp_bus
+    reset_pin:
+      aw9523b_id: aw9523b_hub
+      number: 0
+    calibration:
+      x_min: 0
+      x_max: 320
+      y_min: 0
+      y_max: 240
+    on_touch:
+      - lambda: |-
+          ESP_LOGD("touchscreen", "x=%d, y=%d, x_raw=%d, y_raw=%0d", touch.x, touch.y, touch.x_raw, touch.y_raw);
+      - script.execute: 
+          id: on_screen_touch
+          x: !lambda 'return touch.x;'
+          y: !lambda 'return touch.y;'
+          x_raw: !lambda 'return touch.x_raw;'
+          y_raw: !lambda 'return touch.y_raw;'
+  
+button:
+  - platform: restart
+    name: "Node Restart"
+  - platform: shutdown
+    name: "Node Shutdown"
