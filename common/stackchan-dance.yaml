@@ -1,0 +1,89 @@
+globals:
+  - id: base_servo_x_speed
+    type: float
+    restore_value: no
+    initial_value: "100"
+  - id: base_servo_x_angle
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+  - id: base_servo_y_speed
+    type: float
+    restore_value: no
+    initial_value: "100"
+  - id: base_servo_y_angle
+    type: float
+    restore_value: no
+    initial_value: "0.0"
+
+script:
+  - id: save_head_position
+    then:
+      - globals.set:
+          id: base_servo_x_speed
+          value: !lambda 'return id(servo_x_speed).state;'
+      - globals.set:
+          id: base_servo_x_angle
+          value: !lambda 'return id(servo_x_angle).state;'
+      - globals.set:
+          id: base_servo_y_speed
+          value: !lambda 'return id(servo_y_speed).state;'
+      - globals.set:
+          id: base_servo_y_angle
+          value: !lambda 'return id(servo_y_angle).state;'
+  - id: reset_head_position
+    then:
+      - number.set:
+          id: servo_x_angle
+          value: !lambda 'return id(base_servo_x_angle);' 
+      - number.set:
+          id: servo_y_angle
+          value: !lambda 'return id(base_servo_y_angle);'
+  - id: shake_head
+    then:
+      - logger.log: "Shake head start"
+      - script.execute: save_head_position
+      - number.set:
+          id: servo_x_speed
+          value: 500     
+      - number.set:
+          id: servo_x_angle
+          value: !lambda 'return id(base_servo_x_angle) + 30;'
+      - number.set:
+          id: servo_x_angle
+          value: !lambda 'return id(base_servo_x_angle) - 30;'
+      - number.set:
+          id: servo_x_angle
+          value: !lambda 'return id(base_servo_x_angle) + 30;'
+      - script.execute: reset_head_position
+      - logger.log: "Shake head end"
+  - id: nod_head
+    then:
+      - logger.log: "Nod head start"
+      - script.execute: save_head_position
+      - number.set:
+          id: servo_y_speed
+          value: 50
+      - number.set:
+          id: servo_y_angle
+          value: !lambda 'return std::max(0.0f, id(base_servo_y_angle) - 20.0f);'
+      - number.set:
+          id: servo_y_speed
+          value: 500
+      - script.execute: reset_head_position
+      - logger.log: "Nod head end"
+  - id: raise_head
+    then:
+      - logger.log: "Raise head start"
+      - script.execute: save_head_position
+      - number.set:
+          id: servo_y_speed
+          value: 100
+      - number.set:
+          id: servo_y_angle
+          value: !lambda 'return id(base_servo_y_angle) + 20;'
+      - number.set:
+          id: servo_y_speed
+          value: 500
+      - script.execute: reset_head_position
+      - logger.log: "Raise head end"
