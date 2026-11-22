@@ -1,3 +1,10 @@
+external_components:
+  - source: 
+      type: git
+      url: https://github.com/DennisGaida/m5stack-atoms3r-components
+    components: [ bmi270_bmm150 ]
+    refresh: 1min
+
 sensor:
   - platform: bmi270_bmm150
     address: 0x68
