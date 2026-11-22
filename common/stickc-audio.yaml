@@ -1,0 +1,27 @@
+i2s_audio:
+  i2s_lrclk_pin: 0
+  i2s_bclk_pin: 26
+
+microphone:
+  - platform: i2s_audio
+    id: i2s_mic
+    adc_type: external
+    i2s_din_pin: 34
+    pdm: true
+    sample_rate: 16000
+    channel: stereo
+    bits_per_sample: 16bit
+    correct_dc_offset: true
+
+switch:
+  - platform: template
+    name: "Microphone Capture"
+    id: switch_capture
+    icon: mdi:account-voice
+    optimistic: true
+    turn_on_action:
+      - logger.log: "microphone.capture: i2s_mic"
+      - microphone.capture: i2s_mic
+    turn_off_action:
+      - logger.log: "microphone.stop_capture: i2s_mic"
+      - microphone.stop_capture: i2s_mic

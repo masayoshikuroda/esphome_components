@@ -1,0 +1,46 @@
+esp32:
+  board: m5stick-c
+  framework:
+    type: esp-idf
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/airy10/esphome-m5stickC
+#      url: https://github.com/m5stack/esphome-yaml
+    components: [ axp192 ]
+
+i2c:
+  - id: i2c_internal
+    sda: 21
+    scl: 22
+    scan: True
+  - id: i2c_grove
+    sda: 32
+    scl: 33
+    scan: True
+
+sensor:
+  - platform: axp192
+    address: 0x34
+    i2c_id: i2c_internal
+    update_interval: 30s
+    battery_level:
+      name: "Battery Level"
+
+output:
+  - platform: gpio
+    pin: 10
+    inverted: true
+    id: output_led
+
+light:
+  - platform: binary
+    name: "LED Light"
+    id: light_led
+    output: output_led
+    restore_mode: ALWAYS_OFF
+
+spi:
+  clk_pin: GPIO13
+  mosi_pin: GPIO15
