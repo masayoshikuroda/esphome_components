@@ -14,7 +14,19 @@ speaker:
     bits_per_sample: 32
     task_stack_in_psram: true
 #    buffer_duration: 1000ms
-    
+
+media_player:
+  - platform: speaker
+    name: " StackChan"
+    id: media_player_stackchan
+    volume_min: 0.5
+    volume_max: 0.8
+    announcement_pipeline:
+      speaker: speaker_vu_meter
+      format: FLAC
+      sample_rate: 48000
+      num_channels: 1
+
 switch:
   - platform: template
     id: switch_microphone_mute
@@ -72,16 +84,31 @@ sensor:
     name: "Speaker VU Meter"
     update_interval_ms: 33
 
-media_player:
-  - platform: speaker
-    name: " StackChan"
-    id: media_player_stackchan
-    volume_min: 0.5
-    volume_max: 0.8
-    announcement_pipeline:
-      speaker: speaker_vu_meter
-      format: FLAC
-      sample_rate: 48000
-      num_channels: 1
-
+script:
+  - id: update_mouth_open_ratio_with_mic_volume
+    parameters:
+      max_level: float
+      min_level: float
+    then:
+    - lambda: |-
+        float level = id(sensor_sound_level_rms).state;
+        level = std::min(max_level, level);
+        level = std::max(min_level, level);
+        int ratio = (int)((level - min_level) / (max_level - min_level) * 100.0f);
+        auto call = id(mouth_open_ratio).make_call();
+        call.set_value(ratio);
+        call.perform();
+  - id: update_mouth_open_ratio_with_speaker_volume
+    parameters:
+      max_level: float
+      min_level: float
+    then:
+    - lambda: |-
+        float level = id(speaker_vu_meter).state;
+        level = std::min(max_level, level);
+        level = std::max(min_level, level);
+        int ratio = (int)((level - min_level) / (max_level - min_level) * 100.0f);
+        auto call = id(mouth_open_ratio).make_call();
+        call.set_value(ratio);
+        call.perform();
     
