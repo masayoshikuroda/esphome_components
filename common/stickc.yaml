@@ -41,6 +41,10 @@ light:
     output: output_led
     restore_mode: ALWAYS_OFF
 
+remote_transmitter:
+  pin: GPIO9
+  carrier_duty_percent: 50%
+
 spi:
   clk_pin: GPIO13
   mosi_pin: GPIO15
