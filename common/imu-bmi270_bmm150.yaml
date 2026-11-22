@@ -1,0 +1,34 @@
+sensor:
+  - platform: bmi270_bmm150
+    address: 0x68
+    i2c_id: i2c_internal
+    update_interval: 1000ms
+    acceleration_x:
+      id: accel_x
+      name: "BMI270 Accel X"
+    acceleration_y:
+      id: accel_y
+      name: "BMI270 Accel Y"
+    acceleration_z:
+      id: accel_z
+      name: "BMI270 Accel Z"
+    gyroscope_x:
+      id: gyro_x
+      name: "BMI270 Gyro X"
+    gyroscope_y:
+      id: gyro_y
+      name: "BMI270 Gyro Y"
+    gyroscope_z:
+      id: gyro_z
+      name: "BMI270 Gyro Z" 
+    temperature:
+      name: "BMI270 Temperature"
+    field_strength_x:
+      id: mag_x
+      name: "BMM150 Mag X"
+    field_strength_y:
+      id: mag_y
+      name: "BMM150 Mag Y"
+    field_strength_z:
+      name: "BMM150 Mag z"
+      id: mag_z
