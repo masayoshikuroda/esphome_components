@@ -1,6 +1,6 @@
 color:
   - id: color_black
-    hex: 000000
+    hex: 000001
   - id: color_navy
     hex: 000080
   - id: color_darkgreen
