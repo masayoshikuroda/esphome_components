@@ -43,7 +43,7 @@ speaker:
     dac_type: external
     audio_dac: es8311_dac
     i2s_mode: primary
-    sample_rate: 48000
+    sample_rate: 16000
     bits_per_sample: 32bit
     channel: left
     buffer_duration: 1s
