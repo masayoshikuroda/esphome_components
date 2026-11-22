@@ -1,50 +1,86 @@
 color:
   - id: color_black
-    hex: 000001
+    hex: "000000"
   - id: color_navy
-    hex: 000080
+    hex: "000080"
   - id: color_darkgreen
-    hex: 008000
+    hex: "008000"
   - id: color_darkcyan
-    hex: 008080
+    hex: "008080"
   - id: color_maroon
-    hex: 800000
+    hex: "800000"
   - id: color_purple
-    hex: 800080
+    hex: "800080"
   - id: color_olive
-    hex: 808000
+    hex: "808000"
+  - id: color_lightgrey
+    hex: "D3D3D3"
   - id: color_lightgray
-    hex: D3D3D3  
+    hex: "D3D3D3"
+  - id: color_darkgrey
+    hex: "808080"
   - id: color_darkgray
-    hex: 808080
+    hex: "808080"
   - id: color_blue
-    hex: 0000FF
+    hex: "0000FF"
   - id: color_green
-    hex: 00FF00
+    hex: "00FF00"
   - id: color_cyan
-    hex: 00FFFF
+    hex: "00FFFF"
   - id: color_red
-    hex: FF0000
+    hex: "FF0000"
   - id: color_magenta
-    hex: FF00FF
-  - color: color_yellow
-    id: FFFF00
+    hex: "FF00FF"
+  - id: color_yellow
+    hex: "FFFF00"
   - id: color_white
-    hex: FFFFFF
+    hex: "FFFFFF"
   - id: color_orange
-    hex: FFB400
+    hex: "FFB400"
   - id: color_greenyellow
-    hex: B4FF00  
+    hex: "B4FF00"
   - id: color_pink
-    hex: FFC0CB
+    hex: "FFC0CB"
   - id: color_brown
-    hex: A52A2A
+    hex: "964B00"
   - id: color_gold
-    hex: FFD700
+    hex: "FFD700"
   - id: color_silver
-    hex: C0C0XC0
+    hex: "C0C0C0"
   - id: color_skyblue
-    hex: 87CEEB
+    hex: "87CEEB"
   - id: color_violet
-    hex: EE82EE
+    hex: "B42EE2"
 
+mapping:
+  - id: color_map
+    from: string
+    to: color
+    default_value: color_black
+    entries:
+      black: color_black
+      navy: color_navy
+      darkgreen: color_darkgreen
+      darkcyan: color_darkcyan
+      maroon: color_maroon
+      purple: color_purple
+      olive: color_olive
+      lightgray: color_lightgray
+      darkgray: color_darkgray
+      blue: color_blue
+      green: color_green
+      cyan: color_cyan
+      red: color_red
+      magenta: color_magenta
+      yellow: color_yellow
+      white: color_white
+      orange: color_orange
+      greenyellow: color_greenyellow
+      pink: color_pink
+      brown: color_brown
+      gold: color_gold
+      silver: color_silver
+      skyblue: color_skyblue
+      violet: color_violet
+      
+      

@@ -235,7 +235,7 @@ number:
     set_action:
       - lambda: |-
           id(face).set_mouth_open_ratio(x);
-
+  
 select:
   - platform: template
     id: select_forecolor
@@ -243,74 +243,72 @@ select:
     entity_category: config
     optimistic: true
     options:
-      - red
-      - orange
-      - yellow
-      - green
-      - blue
+      - black
+      - navy
+      - darkgreen
+      - darkcyan
+      - maroon
       - purple
-      - white
-      - cyan
-      - magenta
-      - gray
+      - olive
       - lightgray
       - darkgray
-      - black
+      - blue
+      - green
+      - cyan
+      - red
+      - magenta
+      - yellow
+      - white
+      - orange
+      - greenyellow
+      - pink
+      - brown
+      - gold
+      - silver
+      - skyblue
+      - violet
     initial_option: "white"
     on_value:
       then:
         - lambda: |-
-            if      (x == "red")        id(face).set_fore_color(id(color_red));
-            else if (x == "orange")     id(face).set_fore_color(id(color_orange));
-            else if (x == "yellow")     id(face).set_fore_color(id(color_yellow));
-            else if (x == "green")      id(face).set_fore_color(id(color_green));
-            else if (x == "blue")       id(face).set_fore_color(id(color_blue));
-            else if (x == "purple")     id(face).set_fore_color(id(color_purple));
-            else if (x == "white")      id(face).set_fore_color(id(color_white));
-            else if (x == "cyan")       id(face).set_fore_color(id(color_cyan));
-            else if (x == "magenta")    id(face).set_fore_color(id(color_magenta));
-            else if (x == "gray")       id(face).set_fore_color(id(color_gray));
-            else if (x == "lightgray")  id(face).set_fore_color(id(color_lightgray));
-            else if (x == "darkgray")   id(face).set_fore_color(id(color_darkgray));
-            else if (x == "black")      id(face).set_fore_color(id(color_black));
-            else                        id(face).set_fore_color(id(color_white));
+            Color c = id(color_map).get(x);
+            id(face).set_fore_color(c);
   - platform: template
     id: select_backcolor
     name: "Face Color Back"
     entity_category: config
     optimistic: true
     options:
-      - red
-      - orange
-      - yellow
-      - green
-      - blue
+      - black
+      - navy
+      - darkgreen
+      - darkcyan
+      - maroon
       - purple
-      - white
-      - cyan
-      - magenta
-      - gray
+      - olive
       - lightgray
       - darkgray
-      - black
+      - blue
+      - green
+      - cyan
+      - red
+      - magenta
+      - yellow
+      - white
+      - orange
+      - greenyellow
+      - pink
+      - brown
+      - gold
+      - silver
+      - skyblue
+      - violet
     initial_option: "black"
     on_value:
       then:
         - lambda: |-
-            if      (x == "red")        id(face).set_back_color(id(color_red));
-            else if (x == "orange")     id(face).set_back_color(id(color_orange));
-            else if (x == "yellow")     id(face).set_back_color(id(color_yellow));
-            else if (x == "green")      id(face).set_back_color(id(color_green));
-            else if (x == "blue")       id(face).set_back_color(id(color_blue));
-            else if (x == "purple")     id(face).set_back_color(id(color_purple));
-            else if (x == "white")      id(face).set_back_color(id(color_white));
-            else if (x == "cyan")       id(face).set_back_color(id(color_cyan));
-            else if (x == "magenta")    id(face).set_back_color(id(color_magenta));
-            else if (x == "gray")       id(face).set_back_color(id(color_gray));
-            else if (x == "lightgray")  id(face).set_back_color(id(color_lightgray));
-            else if (x == "darkgray")   id(face).set_back_color(id(color_darkgray));
-            else if (x == "black")      id(face).set_back_color(id(color_black));
-            else                        id(face).set_back_color(id(color_black));
+            Color c = id(color_map).get(x);
+            id(face).set_back_color(c);
   - platform: template
     id: select_face_expression
     name: "Face Expression"
