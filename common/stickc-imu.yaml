@@ -1,0 +1,47 @@
+sensor:
+  - platform: mpu6886
+    i2c_id: i2c_internal
+    address: 0x68
+    update_interval: 100ms
+    accel_x:
+      id: accel_x
+      name: "MPU6886 Accel X"
+    accel_y:
+      id: accel_y
+      name: "MPU6886 Accel Y"
+    accel_z:
+      id: accel_z
+      name: "MPU6886 Accel z"
+    gyro_x:
+      id: gyro_x
+      name: "MPU6886 Gyro X"
+    gyro_y:
+      id: gyro_y
+      name: "MPU6886 Gyro Y"
+    gyro_z:
+      id: gyro_z
+      name: "MPU6886 Gyro z"
+    temperature:
+      name: "MPU6886 Temperature"
+  - platform: template
+    id: roll
+    name: MPU6886 Roll
+    accuracy_decimals: 2
+    unit_of_measurement: "°"
+    update_interval: 100ms
+    lambda: |-
+      float ax = id(accel_x).state;
+      float ay = id(accel_y).state;
+      float az = id(accel_z).state;
+      return (atan2(ay, sqrt(ax * ax + az * az)) * 180.0 / M_PI);
+  - platform: template
+    id: pitch
+    name: MPU6886 Pitch
+    accuracy_decimals: 2
+    unit_of_measurement: "°"
+    update_interval: 100ms
+    lambda: |-
+      float ax = id(accel_x).state;
+      float ay = id(accel_y).state;
+      float az = id(accel_z).state;
+      return (atan2(-ax, sqrt(ay * ay + az * az)) * 180.0 / M_PI);
