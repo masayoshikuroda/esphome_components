@@ -4,7 +4,7 @@ color:
   - id: color_navy
     hex: 000080
   - id: color_darkgreen
-    hex: 0080888
+    hex: 008000
   - id: color_darkcyan
     hex: 008080
   - id: color_maroon
