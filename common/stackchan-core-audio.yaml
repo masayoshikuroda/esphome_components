@@ -46,7 +46,8 @@ speaker:
     i2s_dout_pin: GPIO13
     audio_dac: aw88298_dac
     sample_rate: 16000
-    bits_per_sample: 32bit
+    bits_per_sample: 16bit
+#    bits_per_sample: 32bit
 
 media_player:
   - platform: speaker
@@ -57,5 +58,5 @@ media_player:
     announcement_pipeline:
       speaker: speaker_internal
       format: FLAC
-      sample_rate: 48000
+      sample_rate: 16000
       num_channels: 1
