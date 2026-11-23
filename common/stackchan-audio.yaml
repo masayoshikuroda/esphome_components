@@ -24,7 +24,7 @@ media_player:
     announcement_pipeline:
       speaker: speaker_vu_meter
       format: FLAC
-      sample_rate: 48000
+      sample_rate: 16000
       num_channels: 1
 
 switch:
