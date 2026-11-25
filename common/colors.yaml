@@ -4,27 +4,25 @@ color:
   - id: color_navy
     hex: "000080"
   - id: color_darkgreen
-    hex: "008000"
+    hex: "006400"
   - id: color_darkcyan
-    hex: "008080"
+    hex: "008B8B"
   - id: color_maroon
     hex: "800000"
   - id: color_purple
     hex: "800080"
   - id: color_olive
     hex: "808000"
-  - id: color_lightgrey
-    hex: "D3D3D3"
   - id: color_lightgray
     hex: "D3D3D3"
   - id: color_darkgrey
-    hex: "808080"
+    hex: "A9A9A9"
   - id: color_darkgray
-    hex: "808080"
+    hex: "A9A9A9"
   - id: color_blue
     hex: "0000FF"
   - id: color_green
-    hex: "00FF00"
+    hex: "008000"
   - id: color_cyan
     hex: "00FFFF"
   - id: color_red
@@ -36,12 +34,14 @@ color:
   - id: color_white
     hex: "FFFFFF"
   - id: color_orange
-    hex: "FFB400"
+    hex: "FFA500"
   - id: color_greenyellow
-    hex: "B4FF00"
+    hex: "ADFF2F"
   - id: color_pink
-    hex: "FFC0CB"
+    #hex: "FFC0CB"
+    hex: "F8ABA6"
   - id: color_brown
+    #hex: "A52A2A"
     hex: "964B00"
   - id: color_gold
     hex: "FFD700"
@@ -50,7 +50,7 @@ color:
   - id: color_skyblue
     hex: "87CEEB"
   - id: color_violet
-    hex: "B42EE2"
+    hex: "EE82EE"
 
 mapping:
   - id: color_map
