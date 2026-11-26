@@ -19,8 +19,8 @@ CONF_BOTTOM = "bottom"
 CONF_TAIL_X = "tail_x"
 CONF_TAIL_Y = "tail_y"
 CONF_FONT = "font"
-CONF_FOREGROUND_COLOR = "foreground_color"
-CONF_BACKGROUND_COLOR = "background_color"
+CONF_FORE_COLOR = "fore_color"
+CONF_BACK_COLOR = "back_color"
 CONF_MESSAGE = "message"
 CONF_SCROLL_SPEED = "scroll_speed"
 
@@ -34,8 +34,8 @@ CONFIG_SCHEMA = cv.Schema(
         cv.Optional(CONF_BOTTOM, default=-1): cv.int_,
         cv.Optional(CONF_TAIL_X, default=-1): cv.int_,
         cv.Optional(CONF_TAIL_Y, default=-1): cv.int_,
-        cv.Optional(CONF_FOREGROUND_COLOR): cv.use_id(color.ColorStruct),
-        cv.Optional(CONF_BACKGROUND_COLOR): cv.use_id(color.ColorStruct),
+        cv.Optional(CONF_FORE_COLOR): cv.use_id(color.ColorStruct),
+        cv.Optional(CONF_BACK_COLOR): cv.use_id(color.ColorStruct),
         cv.Optional(CONF_MESSAGE, default=""): cv.string,
         cv.Optional(CONF_SCROLL_SPEED, default=5): cv.positive_int,
     }
@@ -49,17 +49,17 @@ async def to_code(config):
     font_var = await cg.get_variable(config[CONF_FONT])
     cg.add(var.set_font(font_var))
 
-    if CONF_FOREGROUND_COLOR in config:
-        foreground_color_var = await cg.get_variable(config[CONF_FOREGROUND_COLOR])
-        cg.add(var.set_foreground_color(foreground_color_var))
+    if CONF_FORE_COLOR in config:
+        fore_color_var = await cg.get_variable(config[CONF_FORE_COLOR])
+        cg.add(var.set_fore_color(fore_color_var))
     else:
-        cg.add(var.set_foreground_color(cg.ArrayInitializer(0, 0, 0, 0)))
+        cg.add(var.set_fore_color(cg.ArrayInitializer(0, 0, 0, 0)))
 
-    if CONF_BACKGROUND_COLOR in config:
-        background_color_var = await cg.get_variable(config[CONF_BACKGROUND_COLOR])
-        cg.add(var.set_background_color(background_color_var))
+    if CONF_BACK_COLOR in config:
+        back_color_var = await cg.get_variable(config[CONF_BACK_COLOR])
+        cg.add(var.set_back_color(back_color_var))
     else:
-        cg.add(var.set_background_color(cg.ArrayInitializer(255, 255, 255, 0)))
+        cg.add(var.set_back_color(cg.ArrayInitializer(255, 255, 255, 0)))
 
     cg.add(var.set_left(config[CONF_LEFT]))
     cg.add(var.set_top(config[CONF_TOP]))

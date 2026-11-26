@@ -35,10 +35,10 @@ class SpeechBalloon : public Component {
   void set_tail_y(int tail_y) { this->tail_y_ = tail_y; }
   int get_tail_y() const { return this->tail_y_; }
 
-  void set_foreground_color(Color color) { this->foreground_color_ = color; }
-  Color get_foreground_color() const { return this->foreground_color_; }
-  void set_background_color(Color color) { this->background_color_ = color; }
-  Color get_background_color() const { return this->background_color_; }
+  void set_fore_color(Color color) { this->fore_color_ = color; }
+  Color get_fore_color() const { return this->fore_color_; }
+  void set_back_color(Color color) { this->back_color_ = color; }
+  Color get_back_color() const { return this->back_color_; }
 
   void set_message(const std::string &message);
   const std::string &get_message() const { return this->message_; }
@@ -57,8 +57,8 @@ class SpeechBalloon : public Component {
   int tail_x_{0};
   int tail_y_{-1};
   
-  Color foreground_color_{0, 0, 0};
-  Color background_color_{255, 255, 255};
+  Color fore_color_{0, 0, 0};
+  Color back_color_{255, 255, 255};
 
   std::string message_;
 

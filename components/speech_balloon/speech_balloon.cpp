@@ -64,25 +64,25 @@ void SpeechBalloon::draw(display::Display &it) {
   const int balloon_width = message_width <= width ? message_width : width;
   const int balloon_left  = center_x - balloon_width / 2;
   const int balloon_right = center_x + balloon_width / 2;
-  it.filled_rectangle(balloon_left, top, balloon_width, height, this->background_color_);
+  it.filled_rectangle(balloon_left, top, balloon_width, height, this->back_color_);
   
   // draw baloon text area corners
   const int radius = height / 2;
-  it.filled_circle(balloon_left,  center_y, radius, this->background_color_);
-  it.filled_circle(balloon_right, center_y, radius, this->background_color_);
+  it.filled_circle(balloon_left,  center_y, radius, this->back_color_);
+  it.filled_circle(balloon_right, center_y, radius, this->back_color_);
   
   // draw baloon tail
   const int tail_x = this->tail_x_ == -1 ? center_x - radius    : this->tail_x_;
   const int tail_y = this->tail_y_ == -1 ? top - message_height : this->tail_y_;
-  it.filled_triangle(tail_x, tail_y, center_x - radius, center_y, center_x + radius, center_y, this->background_color_);
+  it.filled_triangle(tail_x, tail_y, center_x - radius, center_y, center_x + radius, center_y, this->back_color_);
 
   // draw baloon text
   it.start_clipping(left, top, right, bottom);
   if (message_width <= width) {
-    it.printf(center_x, message_bottom, this->font_, this->foreground_color_, display::TextAlign::BOTTOM_CENTER, this->message_.c_str());
+    it.printf(center_x, message_bottom, this->font_, this->fore_color_, display::TextAlign::BOTTOM_CENTER, this->message_.c_str());
   } else {
     const int left_x = left - this->scroll_position_;
-    it.printf(left_x,   message_bottom, this->font_, this->foreground_color_, display::TextAlign::BOTTOM_LEFT,   this->message_.c_str());
+    it.printf(left_x,   message_bottom, this->font_, this->fore_color_, display::TextAlign::BOTTOM_LEFT,   this->message_.c_str());
 
     this->scroll_position_ += this->scroll_speed_;
     if (this->scroll_position_ > message_width) {
