@@ -248,6 +248,58 @@ display:
           it.printf(0,0, id(font_20_mdi), id(face_forecolor), "\U000F0064");
 ```
 
+## Speech Baloon
+
+いわゆる吹き出しを表示するコンポーネントです。
+- 文字を表示するエリアを矩形で設定
+- エリアより大きい文字列を表示する場合、スクロール表示
+- StackChanコンポーネントと組み合わせて利用
+- display上で明示的に表示
+
+```yaml:stackchan.yaml
+(前略)
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/masayoshikuroda/esphome_components
+      ref: main
+    components: [ speech_balloon ]
+
+packages:
+  ・・・
+  remote_package_files:
+    url: https://github.com/masayoshikuroda/esphome_components/
+    files:
+      - common/colors.yaml
+      - common/fonts.yaml
+      - common/fonts-ja.yaml
+
+speech_balloon:
+  - id: balloon
+    left: 80
+    top: 210
+    tail_x: 170
+    tail_y: 180
+    width: 230
+    height: 30
+    font: font_20_gothic
+    foreground_color: color_white
+    background_color: color_black
+    message: "こんにちは"
+    scroll_speed: 5
+
+display:
+  - platform: mipi_spi
+    (略)
+    update_interval: 33ms
+    pages:
+      - id: page1
+        lambda:  |-
+          ・・・
+          id(balloon)->draw(it);
+```
+
 ## StackChan Voice Assistant
 
 Voice Assisttantコンポーネントを設定し、Home Assistant上のassist機能を利用することで
@@ -303,7 +355,7 @@ display:
             TextAlign::TOP_RIGHT, id(face_decoration).c_str());
           
           // draw stackchan balooon
-          it.printf(it.get_width()/2, it.get_height(), id(font_20_gothic), id(face).get_fore_color(), TextAlign::BOTTOM_CENTER, id(face_message).c_str());
+          id(balloon)->draw(it);
           
           // draw status icons in toolbar
           auto print_status = [&](int pos, const char* text) -> void {
@@ -316,69 +368,85 @@ display:
           print_status(3, id(va).is_running()          ? "\U000F0064" : "");
 
 script:
+  - id: reset_face
+    then:
+      - select.set:
+          id: select_face_expression
+          option: neutral
+      - lambda: |-
+          id(face_decoration) = "";
+      - text.set:
+          id: balloon_message
+          value: ""  
   - id: on_client_connected
     then:
-     - lambda: |-
-        id(face_decoration) = "";
-        id(face_message) = "CONNECTED";
-     - switch.turn_on: switch_wake_word
+      - lambda: |-
+          id(face_decoration) = "";
+      - text.set:
+          id: balloon_message
+          value: "CONNECTED"
+#      - switch.turn_on: switch_wake_word 
   - id: on_client_disconnected
     then:
-     - lambda: |-
-        id(face_decoration) = "";
-        id(face_message) = "DISCONNECTED";   
-     - switch.turn_off: switch_wake_word
-    then:
       - lambda: |-
           id(face_decoration) = "";
-          id(face_message) = "DETECTING";
+      - text.set:
+          id: balloon_message
+          value: "DISCONNECTED"
+      - switch.turn_off: switch_wake_word  
+  - id: on_wake_word_start
+    then:
+      - select.set:
+          id: select_face_expression
+          option: Sleepy
+      - lambda: |-
+          id(face_decoration) = "💤";
   - id: on_wake_word_stop
     then:
-      - lambda: |-
-          id(face_decoration) = "";
-          id(face_message) = "";
+      - script.execute: reset_face
   - id: on_wake_word_detected
     then:
+      - select.set:
+          id: select_face_expression
+          option: Neutral
       - lambda: |-
           id(face_decoration) = "❗️";
-          id(face_message) = "DETECTED";
   - id: on_voice_assistant_start
     then:
-     - lambda: |-
-        id(face_decoration) = "";
-        id(face_message) = "STARTED";
+      - script.execute: reset_face
   - id: on_voice_assistant_listening
     then:
-    - lambda: |-
-        id(face_decoration) = "👂";
-        id(face_message) = "LISTENING";
+      - lambda: |-
+          id(face_decoration) = "👂";
   - id: on_voice_assistant_transcripted
     then:
-    - lambda: |-
-        id(face_decoration) = "📝";
-        id(face_message) = "TRANSCRIPTED";
+      - script.execute: reset_face
   - id: on_voice_assistant_intent_start
     then:
-    - lambda: |-
-        id(face_decoration) = "🌐";
-        id(face_message) = "THINKING";
+      - lambda: |-
+          id(face_decoration) = "🌐";
   - id: on_voice_assistant_error
     then:
-    - lambda: |-
-        id(face_decoration) = "❌";
-        id(face_message) = "ERROR";
+      - lambda: |-
+          id(face_decoration) = "❌";
+      - text.set:
+          id: balloon_message
+          value: !lambda |-
+            return id(va_last_error);
   - id: on_voice_assistant_end
     then:
+      - light.turn_off: light_bar
   - id: on_voice_assistant_speaking
     then:
-    - lambda: |-
-        id(face_decoration) = "📢";
-        id(face_message) = id(va_last_tts);
+      - lambda: |-
+          id(face_decoration) = "👄";
+      - text.set:
+          id: balloon_message
+          value: !lambda |-
+            return id(va_last_tts);
   - id: on_voice_assistant_spoken
     then:
-    - lambda: |-
-        id(face_decoration) = "";
-        id(face_message) = "";
+      - script.execute: reset_face
 
 web_server:
   port: 8888
