@@ -253,7 +253,6 @@ display:
 いわゆる吹き出しを表示するコンポーネントです。
 - 文字を表示するエリアを矩形で設定
 - エリアより大きい文字列を表示する場合、スクロール表示
-- StackChanコンポーネントと組み合わせて利用
 - display上で明示的に表示
 
 ```yaml:stackchan.yaml
@@ -277,15 +276,7 @@ packages:
 
 speech_balloon:
   - id: balloon
-    left: 80
-    top: 210
-    tail_x: 170
-    tail_y: 180
-    width: 230
-    height: 30
     font: font_20_gothic
-    foreground_color: color_white
-    background_color: color_black
     message: "こんにちは"
     scroll_speed: 5
 
