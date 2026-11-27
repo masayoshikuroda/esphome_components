@@ -1,12 +1,100 @@
+external_components:
+  - source:
+      type: git
+      url: https://github.com/masayoshikuroda/esphome_components
+      ref: main
+    components: [ speech_balloon ]
+    refresh: 1min
+
+speech_balloon:
+  - id: balloon
+    font: font_20_gothic
+    scroll_speed: 5 # px per update
+
 text:
   - platform: template
-    id: text_face_message
-    name: "Face Message"
+    id: balloon_message
+    name: "Balloon Message"
     entity_category: config
     mode: text
     lambda: |-
-      return {id(face_message)};
+      return id(balloon).get_message();
     set_action:
       then:
         - lambda: |-
-            id(face_message) = x;
+            id(balloon).set_message(x);
+
+select:
+  - platform: template
+    id: select_balloon_forecolor
+    name: "Baloon Color Fore"
+    entity_category: config
+    optimistic: true
+    options:
+      - black
+      - navy
+      - darkgreen
+      - darkcyan
+      - maroon
+      - purple
+      - olive
+      - lightgray
+      - darkgray
+      - blue
+      - green
+      - cyan
+      - red
+      - magenta
+      - yellow
+      - white
+      - orange
+      - greenyellow
+      - pink
+      - brown
+      - gold
+      - silver
+      - skyblue
+      - violet
+    initial_option: "black"
+    on_value:
+      then:
+        - lambda: |-
+            Color c = id(color_map).get(x);
+            id(balloon).set_fore_color(c);
+  - platform: template
+    id: select_balloon_backcolor
+    name: "Baloon Color Back"
+    entity_category: config
+    optimistic: true
+    options:
+      - black
+      - navy
+      - darkgreen
+      - darkcyan
+      - maroon
+      - purple
+      - olive
+      - lightgray
+      - darkgray
+      - blue
+      - green
+      - cyan
+      - red
+      - magenta
+      - yellow
+      - white
+      - orange
+      - greenyellow
+      - pink
+      - brown
+      - gold
+      - silver
+      - skyblue
+      - violet
+    initial_option: "white"
+    on_value:
+      then:
+        - lambda: |-
+            Color c = id(color_map).get(x);
+            id(balloon).set_back_color(c);
+

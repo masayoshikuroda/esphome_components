@@ -235,10 +235,10 @@ number:
     set_action:
       - lambda: |-
           id(face).set_mouth_open_ratio(x);
-  
+ 
 select:
   - platform: template
-    id: select_forecolor
+    id: select_face_forecolor
     name: "Face Color Fore"
     entity_category: config
     optimistic: true
@@ -274,7 +274,7 @@ select:
             Color c = id(color_map).get(x);
             id(face).set_fore_color(c);
   - platform: template
-    id: select_backcolor
+    id: select_face_backcolor
     name: "Face Color Back"
     entity_category: config
     optimistic: true

@@ -3,10 +3,6 @@ globals:
     type: std::string
     restore_value: no
     initial_value: ""
-  - id: face_message
-    type: std::string
-    restore_value: no
-    initial_value: ""
 
 select:
   - platform: template
