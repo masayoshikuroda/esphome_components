@@ -448,3 +448,20 @@ web_server:
 - ウェイクワードは "Okay Nabu"
 - voice_assistant の status が更新されると、対応する script が呼び出されます
 - web_server 上で設定、動作を変更できます
+
+## 謝辞（Acknowledgements）
+
+本プロジェクトの開発にあたり、以下のプロジェクトおよびコミュニティに深く感謝いたします。
+
+**[Stack-chan](https://github.com/stack-chan/stack-chan)**  
+オリジナルの開発者である石川真也氏をはじめ、Stack-chanの開発と発展に携わった皆様に敬意を表します。
+本プロジェクトのコンセプトと開発のインスピレーションとなりました。
+
+**[M5Stack](https://github.com/m5stack)**  
+本プロジェクトでは、M5Stack製品をハードウェアプラットフォームとして利用しています。
+
+**[Home Assistant](https://github.com/home-assistant)**  
+Voice Assistant機能を活用することで、StacckChanの音声対話機能を実現しています。
+
+**[ESPHome](https://github.com/esphome/esphome)**  
+Home Assistantとの連携を可能とするファームウェアの開発に利用しています。
