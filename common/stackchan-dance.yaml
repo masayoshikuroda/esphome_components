@@ -39,22 +39,37 @@ script:
       - number.set:
           id: servo_y_angle
           value: !lambda 'return id(base_servo_y_angle);'
+      - logger.log: "Reset head opsition"
+  - id: wait_until_head_stop
+    then:
+      - wait_until:
+          condition:
+            - not:
+                ftservo.is_moving: x_servo
+      - wait_until:
+          condition:
+            - not:
+                ftservo.is_moving: y_servo
+
   - id: shake_head
     then:
       - logger.log: "Shake head start"
       - script.execute: save_head_position
       - number.set:
           id: servo_x_speed
-          value: 500     
+          value: 100     
       - number.set:
           id: servo_x_angle
           value: !lambda 'return id(base_servo_x_angle) + 30;'
+      - logger.log: "Shake head left 1"
       - number.set:
           id: servo_x_angle
           value: !lambda 'return id(base_servo_x_angle) - 30;'
+      - logger.log: "Shake head right 1"
       - number.set:
           id: servo_x_angle
           value: !lambda 'return id(base_servo_x_angle) + 30;'
+      - logger.log: "Shake head left 2"
       - script.execute: reset_head_position
       - logger.log: "Shake head end"
   - id: nod_head
