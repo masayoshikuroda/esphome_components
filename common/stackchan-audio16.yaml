@@ -1,0 +1,114 @@
+microphone:
+  - platform: resampler
+    id: microphone_stackchan
+    microphone:
+      microphone: microphone_internal
+      bits_per_sample: 16
+    sample_rate: 16000
+
+speaker:
+  - platform: resampler
+    id: speaker_stackchan
+    output_speaker: speaker_internal
+    sample_rate: 16000
+    bits_per_sample: 16
+    task_stack_in_psram: true
+#    buffer_duration: 1000ms
+
+media_player:
+  - platform: speaker
+    name: " StackChan"
+    id: media_player_stackchan
+    volume_min: 0.5
+    volume_max: 0.8
+    announcement_pipeline:
+      speaker: speaker_vu_meter
+      format: FLAC
+      sample_rate: 16000
+      num_channels: 1
+
+switch:
+  - platform: template
+    id: switch_microphone_mute
+    name: Microphone Mute
+    icon: "mdi:microphone-off"
+    optimistic: true
+    lambda: |-
+      return id(microphone_stackchan).get_mute_state();
+    turn_on_action:
+      - microphone.mute: microphone_stackchan
+      - logger.log: "Microphone muted."
+    turn_off_action:
+      - microphone.unmute: microphone_stackchan
+      - logger.log: "Microphone unmuted."
+  - platform: template
+    id: switch_microphone_capture
+    name: Microphone Capture
+    icon: "mdi:microphone-off"
+    optimistic: true
+    lambda: |-
+      return id(microphone_stackchan).is_running();
+    turn_on_action:
+      - microphone.capture: microphone_stackchan
+      - logger.log: "Microphone capture started."
+    turn_off_action:
+      - microphone.stop_capture: microphone_stackchan
+      - logger.log: "Microphone capture stopped."
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/masayoshikuroda/esphome_components
+      ref: main
+    components: [ vu_meter ]
+
+sensor:
+  - platform: sound_level
+    id: sensor_sound_level
+    microphone: microphone_stackchan
+    passive: true
+    measurement_duration: 66ms
+    rms:
+      id: sensor_sound_level_rms
+      name: "Microphone Loudness Average"
+      filters:
+        - offset: 65.0
+    peak:
+      id: sensor_sound_level_peak
+      name: "Microphone Loudness Peak"
+      filters:
+        - offset: 65.0
+  - platform: vu_meter
+    id: speaker_vu_meter
+    source: speaker_stackchan
+    name: "Speaker VU Meter"
+    update_interval_ms: 33
+
+script:
+  - id: update_mouth_open_ratio_with_mic_volume
+    parameters:
+      max_level: float
+      min_level: float
+    then:
+    - lambda: |-
+        float level = id(sensor_sound_level_rms).state;
+        level = std::min(max_level, level);
+        level = std::max(min_level, level);
+        int ratio = (int)((level - min_level) / (max_level - min_level) * 100.0f);
+        auto call = id(mouth_open_ratio).make_call();
+        call.set_value(ratio);
+        call.perform();
+  - id: update_mouth_open_ratio_with_speaker_volume
+    parameters:
+      max_level: float
+      min_level: float
+    then:
+    - lambda: |-
+        float level = id(speaker_vu_meter).state;
+        level = std::min(max_level, level);
+        level = std::max(min_level, level);
+        int ratio = (int)((level - min_level) / (max_level - min_level) * 100.0f);
+        auto call = id(mouth_open_ratio).make_call();
+        call.set_value(ratio);
+        call.perform();
+    

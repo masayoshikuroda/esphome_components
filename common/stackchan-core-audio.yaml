@@ -35,7 +35,7 @@ microphone:
     i2s_din_pin: GPIO14
     adc_type: external
     sample_rate: 16000
-    bits_per_sample: 32bit
+    bits_per_sample: 16bit
     i2s_audio_id: i2s_audio_bus
 
 speaker:
@@ -47,7 +47,6 @@ speaker:
     audio_dac: aw88298_dac
     sample_rate: 16000
     bits_per_sample: 16bit
-#    bits_per_sample: 32bit
 
 media_player:
   - platform: speaker
