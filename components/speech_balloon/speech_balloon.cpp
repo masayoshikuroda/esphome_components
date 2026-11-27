@@ -72,7 +72,7 @@ void SpeechBalloon::draw(display::Display &it) {
   it.filled_circle(balloon_right, center_y, radius, this->back_color_);
   
   // draw baloon tail
-  const int tail_x = this->tail_x_ == -1 ? center_x - radius    : this->tail_x_;
+  const int tail_x = this->tail_x_ == -1 ? it.get_width() /2 : this->tail_x_;
   const int tail_y = this->tail_y_ == -1 ? top - message_height : this->tail_y_;
   it.filled_triangle(tail_x, tail_y, center_x - radius, center_y, center_x + radius, center_y, this->back_color_);
 
