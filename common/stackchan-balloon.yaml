@@ -27,7 +27,7 @@ text:
 select:
   - platform: template
     id: select_balloon_forecolor
-    name: "Baloon Color Fore"
+    name: "Balloon Color Fore"
     entity_category: config
     optimistic: true
     options:
@@ -63,7 +63,7 @@ select:
             id(balloon).set_fore_color(c);
   - platform: template
     id: select_balloon_backcolor
-    name: "Baloon Color Back"
+    name: "Balloon Color Back"
     entity_category: config
     optimistic: true
     options:
